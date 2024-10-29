@@ -17,14 +17,19 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    // refresh_token: {
-    //   type: Sequelize.STRING(512),
-    //   allowNull: true
-    // },
-    // expiration_date: {
-    //   type: Sequelize.DATE,
-    //   allowNull: true
-    // },
+
+    phone_number:{
+      type: Sequelize.STRING,
+      allowNull: false,
+    }
+    refresh_token: {
+       type: Sequelize.STRING(512),
+       allowNull: true
+     },
+     expiration_date: {
+       type: Sequelize.DATE,
+       allowNull: true
+     },
   });
 
   return User;
