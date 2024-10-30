@@ -6,9 +6,6 @@ module.exports = (app) => {
   // Create a new Resume
   router.post("/", [authenticate], resumes.create);
 
-  // Retrieve all Resumes
-  router.get("/", [authenticate], resumes.findAll);
-
   // Retrieve all Resumes for a specific user
   router.get("/userResumes/:userId", [authenticate], resumes.findAllForUser);
 

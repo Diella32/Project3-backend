@@ -1,5 +1,6 @@
 const dbConfig = require("../config/db.config.js");
 const Sequelize = require("sequelize");
+
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
@@ -10,55 +11,54 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     idle: dbConfig.pool.idle,
   },
 });
+
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.resume = require("./resume.model.js")(sequelize, Sequelize);
-db.personalLink = require("./personalLink.model.js")(sequelize, Sequelize);
-db.education = require("./education.model.js")(sequelize, Sequelize);
-db.experience = require("./experience.model.js")(sequelize, Sequelize);
-db.project = require("./project.model.js")(sequelize, Sequelize);
-db.skill = require("./skill.model.js")(sequelize, Sequelize);
-db.awardCertification = require("./awardCertification.model.js")(sequelize, Sequelize);
-db.interest = require("./interest.model.js")(sequelize, Sequelize);
+// Models
+db.User = require("./user.model.js")(sequelize, Sequelize);
+db.Resume = require("./resume.model.js")(sequelize, Sequelize);
+db.Skill = require("./skill.model.js")(sequelize, Sequelize);
+db.Education = require("./education.model.js")(sequelize, Sequelize);
+db.PersonalLink = require("./personalLink.model.js")(sequelize, Sequelize);
+db.Experience = require("./experience.model.js")(sequelize, Sequelize);
+db.Project = require("./project.model.js")(sequelize, Sequelize);
+db.Interest = require("./interest.model.js")(sequelize, Sequelize);
+db.AwardCertification = require("./awardCertification.model.js")(sequelize, Sequelize);
 
+// Associations
 
-// User to Resume (One-to-Many)
-db.user.hasMany(db.resume, { as: "resumes", foreignKey: "user_id", onDelete: "CASCADE" });
-db.resume.belongsTo(db.user, { as: "user", foreignKey: "user_id" });
+// User and Resume (One-to-Many)
+db.User.hasMany(db.Resume, { as: "resumes", foreignKey: "user_id", onDelete: "CASCADE" });
+db.Resume.belongsTo(db.User, { as: "user", foreignKey: "user_id" });
 
-// Resume to other entities (One-to-Many)
-db.resume.hasMany(db.personalLink, { as: "personalLinks", foreignKey: "resume_id", onDelete: "CASCADE" });
-db.personalLink.belongsTo(db.resume, { as: "resume", foreignKey: "resume_id" });
+// Resume and Skills (Many-to-Many)
+db.Resume.belongsToMany(db.Skill, { through: "ResumeSkills", as: "skills", foreignKey: "resume_id" });
+db.Skill.belongsToMany(db.Resume, { through: "ResumeSkills", as: "resumes", foreignKey: "skill_id" });
 
-db.resume.hasMany(db.education, { as: "education", foreignKey: "resume_id", onDelete: "CASCADE" });
-db.education.belongsTo(db.resume, { as: "resume", foreignKey: "resume_id" });
+// Resume and Education (One-to-Many)
+db.Resume.hasMany(db.Education, { as: "education", foreignKey: "resume_id", onDelete: "CASCADE" });
+db.Education.belongsTo(db.Resume, { as: "resume", foreignKey: "resume_id" });
 
-db.resume.hasMany(db.experience, { as: "experience", foreignKey: "resume_id", onDelete: "CASCADE" });
-db.experience.belongsTo(db.resume, { as: "resume", foreignKey: "resume_id" });
+// Resume and Personal Links (Many-to-Many)
+db.Resume.belongsToMany(db.PersonalLink, { through: "ResumePersonalLinks", as: "personalLinks", foreignKey: "resume_id" });
+db.PersonalLink.belongsToMany(db.Resume, { through: "ResumePersonalLinks", as: "resumes", foreignKey: "personal_link_id" });
 
-db.resume.hasMany(db.project, { as: "projects", foreignKey: "resume_id", onDelete: "CASCADE" });
-db.project.belongsTo(db.resume, { as: "resume", foreignKey: "resume_id" });
+// Resume and Experiences (Many-to-Many)
+db.Resume.belongsToMany(db.Experience, { through: "ResumeExperiences", as: "experiences", foreignKey: "resume_id" });
+db.Experience.belongsToMany(db.Resume, { through: "ResumeExperiences", as: "resumes", foreignKey: "experience_id" });
 
-db.resume.hasMany(db.awardCertification, { as: "awardCertifications", foreignKey: "resume_id", onDelete: "CASCADE" });
-db.awardCertification.belongsTo(db.resume, { as: "resume", foreignKey: "resume_id" });
+// Resume and Projects (Many-to-Many)
+db.Resume.belongsToMany(db.Project, { through: "ResumeProjects", as: "projects", foreignKey: "resume_id" });
+db.Project.belongsToMany(db.Resume, { through: "ResumeProjects", as: "resumes", foreignKey: "project_id" });
 
-db.resume.hasMany(db.interest, { as: "interests", foreignKey: "resume_id", onDelete: "CASCADE" });
-db.interest.belongsTo(db.resume, { as: "resume", foreignKey: "resume_id" });
+// Resume and Interests (Many-to-Many)
+db.Resume.belongsToMany(db.Interest, { through: "ResumeInterests", as: "interests", foreignKey: "resume_id" });
+db.Interest.belongsToMany(db.Resume, { through: "ResumeInterests", as: "resumes", foreignKey: "interest_id" });
 
-// Many-to-Many relationship between Resume and Skill through resumeSkill bridge table
-db.resume.belongsToMany(db.skill, {
-  through: db.resumeSkill,
-  as: "skills",
-  foreignKey: "resume_id",
-  otherKey: "skill_id",
-});
-db.skill.belongsToMany(db.resume, {
-  through: db.resumeSkill,
-  as: "resumes",
-  foreignKey: "skill_id",
-  otherKey: "resume_id",
-});
+// Resume and Awards/Certifications (One-to-Many)
+db.Resume.hasMany(db.AwardCertification, { as: "awardCertifications", foreignKey: "resume_id", onDelete: "CASCADE" });
+db.AwardCertification.belongsTo(db.Resume, { as: "resume", foreignKey: "resume_id" });
 
 module.exports = db;

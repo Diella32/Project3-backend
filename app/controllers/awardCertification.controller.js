@@ -55,3 +55,24 @@ exports.update = (req, res) => {
     })
     .catch(err => res.status)
 };
+
+// Delete an AwardCertification with the specified id in the request
+exports.delete = (req, res) => {
+  const id = req.params.id;
+  AwardCertification.destroy({ where: { id: id } })
+    .then(num => {
+      if (num == 1) {
+        res.send({ message: "AwardCertification was deleted successfully!" });
+      } else {
+        res.send({ message: `Cannot delete AwardCertification with id=${id}. Maybe AwardCertification was not found!` });
+      }
+    })
+    .catch(err => res.status(500).send({ message: err.message || "Could not delete AwardCertification with id=" + id }));
+};
+
+// Delete all AwardCertification entries from the database.
+exports.deleteAll = (req, res) => {
+  AwardCertification.destroy({ where: {}, truncate: false })
+    .then(nums => res.send({ message: `${nums} AwardCertification entries were deleted successfully!` }))
+    .catch(err => res.status(500).send({ message: err.message || "Some error occurred while removing all AwardCertification entries." }));
+};

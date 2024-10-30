@@ -1,20 +1,26 @@
-const express = require('express');
-const router = express.Router();
-const education = require("../controllers/education.controller.js");
-
+module.exports = (app) => {
+    const education = require("../controllers/education.controller.js");
+    const { authenticate } = require("../authorization/authorization.js");
+    const router = require("express").Router();
+  
 // Create a new Education entry for a resume
-router.post("/", education.create);
-
+router.post("/", [authenticate], education.create);
+  
 // Retrieve all Education entries for a specific resume
-router.get("/resume/:resumeId", education.findAllForResume);
-
+router.get("/resume/:rsume_id", [authenticate], education.findAllForResume);
+  
 // Retrieve a single Education entry by ID
-router.get("/:id", education.findOne);
-
+router.get("/:id", [authenticate], education.findOne);
+  
 // Update an Education entry by ID
-router.put("/:id", education.update);
-
+router.put("/:id", [authenticate], education.update);
+  
 // Delete an Education entry by ID
-router.delete("/:id", education.delete);
-
-module.exports = router;
+router.delete("/:id", [authenticate], education.delete);
+  
+ // Delete all education
+    router.delete("/", [authenticate], education.deleteAll);
+  
+    app.use("/api/resumes/education", router);
+};
+  
