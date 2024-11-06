@@ -21,5 +21,5 @@ module.exports = (app) => {
   // Delete all Resumes
   router.delete("/", [authenticate], resumes.deleteAll);
 
-  app.use("/api/resumes", router);
+  app.use("/resume", router);
 };

@@ -21,6 +21,6 @@ module.exports = (app) => {
     // Delete all interest for a specific user (if needed)
     router.delete("/resume/:resumeId", [authenticate], interest.deleteAllForUser);
   
-    app.use("/api/resumes/interest", router);
+    app.use("/resume/interest", router);
   };
   

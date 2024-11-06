@@ -21,6 +21,6 @@ module.exports = (app) => {
     // Delete all AwardCertifications for a specific resume (if needed)
     router.delete("/resume/:resumeId", [authenticate], AwardCertifications.deleteAll);
   
-    app.use("/api/resumes/AwardCertifications", router);
+    app.use("/resume/AwardCertifications", router);
   };
   
