@@ -21,6 +21,6 @@ router.delete("/:id", [authenticate], education.delete);
  // Delete all education
     router.delete("/", [authenticate], education.deleteAll);
   
-    app.use("/api/resumes/education", router);
+    app.use("/resume/education", router);
 };
   

@@ -21,6 +21,6 @@ module.exports = (app) => {
     // Delete all Skills for a specific resume (if needed)
     router.delete("/resume/:resumeId", [authenticate], Skills.deleteAll);
   
-    app.use("/api/resumes/Skills", router);
+    app.use("/resume/Skills", router);
   };
   
