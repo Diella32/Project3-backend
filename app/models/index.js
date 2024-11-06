@@ -27,6 +27,7 @@ db.Project = require("./project.model.js")(sequelize, Sequelize);
 db.Interest = require("./interest.model.js")(sequelize, Sequelize);
 db.AwardCertification = require("./awardCertification.model.js")(sequelize, Sequelize);
 db.Session = require("./session.model.js")(sequelize, Sequelize);
+db.ContactInfo =require("./contactInfo.model.js")(sequelize, Sequelize);
 
 // Associations
 
@@ -36,6 +37,11 @@ db.Session.belongsTo(db.User, { as: "user", foreignKey: "user_id" });
 // User and Resume (One-to-Many)
 db.User.hasMany(db.Resume, { as: "resumes", foreignKey: "user_id", onDelete: "CASCADE" });
 db.Resume.belongsTo(db.User, { as: "user", foreignKey: "user_id" });
+
+
+// Resume and ContactInfo (One-to-One)
+db.Resume.hasOne(db.ContactInfo, { as: "contactInfo", foreignKey: "resume_id", onDelete: "CASCADE" });
+db.ContactInfo.belongsTo(db.Resume, { as: "resume", foreignKey: "resume_id" });
 
 // Resume and Skills (Many-to-Many)
 db.Resume.belongsToMany(db.Skill, { through: "ResumeSkills", as: "skills", foreignKey: "resume_id" });
