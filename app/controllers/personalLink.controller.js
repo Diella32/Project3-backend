@@ -1,5 +1,5 @@
 const db = require("../models");
-const PersonalLink = db.personalLink;
+const PersonalLink = db.PersonalLink;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new PersonalLink
@@ -11,7 +11,8 @@ exports.create = (req, res) => {
   const personalLink = {
     url: req.body.url,
     type: req.body.type, // e.g., social, GitHub, portfolio
-    resumeId: req.body.resumeId,
+    user_id: req.body.userId,
+
   };
 
   PersonalLink.create(personalLink)
@@ -20,12 +21,24 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all PersonalLinks for a specific Resume
-exports.findAllForResume = (req, res) => {
-  const resumeId = req.params.resumeId;
-  PersonalLink.findAll({ where: { resumeId: resumeId } })
-    .then(data => res.send(data))
-    .catch(err => res.status(500).send({ message: err.message || "Error retrieving Personal Links." }));
+exports.findAllForUser = (req, res) => {
+  const userId = req.params.userId;
+  PersonalLink.findAll({ where: { user_id: userId } })
+  .then((data) => {
+    if (data) {
+      res.send(data);
+    } else {
+      res.status(404).send({
+        message: `Cannot find PersonalLink for user with id=${userId}.`,
+      });
+    }
+  })
+  .catch((err) => {
+    res.status(500).send({message:err.message ||"Error retrieving Projects for user with id=" 
+    });
+  });
 };
+
 
 // Find a single PersonalLink with an id
 exports.findOne = (req, res) => {

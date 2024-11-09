@@ -1,5 +1,5 @@
 const db = require("../models");
-const Project = db.project;
+const Project = db.Project;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Project
@@ -11,8 +11,9 @@ exports.create = (req, res) => {
   const project = {
     project_name: req.body.project_name,
     description: req.body.description,
+    technologies_used:req.body.technologies_used,
     url: req.body.url,
-    resumeId: req.body.resumeId,
+    user_id: req.body.userId,
   };
 
   Project.create(project)
@@ -22,11 +23,28 @@ exports.create = (req, res) => {
 
 // Retrieve all Projects for a specific Resume
 exports.findAllForResume = (req, res) => {
-  const resumeId = req.params.resumeId;
-  Project.findAll({ where: { resumeId: resumeId } })
-    .then(data => res.send(data))
-    .catch(err => res.status(500).send({ message: err.message || "Error retrieving Projects." }));
+  const userId = req.params.userId;
+  Project.findAll({ where: { user_id: userId } })
+  .then((data) => {
+    if (data) {
+      res.send(data);
+    } else {
+      res.status(404).send({
+        message: `Cannot find Projects for user with id=${userId}.`,
+      });
+    }
+  })
+  .catch((err) => {
+    res.status(500).send({message:err.message ||"Error retrieving Projects for user with id=" 
+    });
+  });
 };
+
+
+  
+    
+
+
 
 // Find a single Project with an id
 exports.findOne = (req, res) => {

@@ -38,6 +38,11 @@ db.Session.belongsTo(db.User, { as: "user", foreignKey: "user_id" });
 db.User.hasMany(db.Resume, { as: "resumes", foreignKey: "user_id", onDelete: "CASCADE" });
 db.Resume.belongsTo(db.User, { as: "user", foreignKey: "user_id" });
 
+// User and Project (One-to-Many)
+db.User.hasMany(db.Project, { as: db.Project.name, foreignKey: "user_id", onDelete: "CASCADE" });
+db.Project.belongsTo(db.User, { as: db.User.name, foreignKey: "user_id", onDelete: "CASCADE" });
+
+
 
 // Resume and ContactInfo (One-to-One)
 db.Resume.hasOne(db.ContactInfo, { as: "contactInfo", foreignKey: "resume_id", onDelete: "CASCADE" });
