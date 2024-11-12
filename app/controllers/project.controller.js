@@ -22,7 +22,7 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Projects for a specific Resume
-exports.findAllForResume = (req, res) => {
+exports.findAllForUser = (req, res) => {
   const userId = req.params.userId;
   Project.findAll({ where: { user_id: userId } })
   .then((data) => {
