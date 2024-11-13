@@ -1,7 +1,7 @@
 const db = require("../models");
 const authconfig = require("../config/auth.config");
-const User = db.user;
-const Session = db.session;
+const User = db.User;
+const Session = db.Session;
 const Op = db.Sequelize.Op;
 
 const { google } = require("googleapis");
@@ -81,7 +81,7 @@ exports.login = async (req, res) => {
     });
 
   // this lets us get the user id
-  if (user.id === undefined) {
+  if (user.user_id === undefined) {
     console.log("need to get user's id");
     console.log(user);
     await User.create(user)
@@ -99,18 +99,18 @@ exports.login = async (req, res) => {
     user.fName = firstName;
     user.lName = lastName;
     console.log(user);
-    await User.update(user, { where: { id: user.id } })
+    await User.update(user, { where: { id: user.user_id } })
       .then((num) => {
         if (num == 1) {
           console.log("updated user's name");
         } else {
           console.log(
-            `Cannot update User with id=${user.id}. Maybe User was not found or req.body is empty!`
+            `Cannot update User with id=${user.user_id}. Maybe User was not found or req.body is empty!`
           );
         }
       })
       .catch((err) => {
-        console.log("Error updating User with id=" + user.id + " " + err);
+        console.log("Error updating User with id=" + user.user_id + " " + err);
       });
   }
 
@@ -153,7 +153,7 @@ exports.login = async (req, res) => {
             email: user.email,
             fName: user.fName,
             lName: user.lName,
-            userId: user.id,
+            user_id: user.user_id,
             token: session.token,
             // refresh_token: user.refresh_token,
             // expiration_date: user.expiration_date
@@ -181,7 +181,7 @@ exports.login = async (req, res) => {
     const session = {
       token: token,
       email: email,
-      userId: user.id,
+      user_id: user.user_id,
       expirationDate: tempExpirationDate,
     };
 
@@ -194,7 +194,7 @@ exports.login = async (req, res) => {
           email: user.email,
           fName: user.fName,
           lName: user.lName,
-          userId: user.id,
+          user_id: user.user_id,
           token: token,
           // refresh_token: user.refresh_token,
           // expiration_date: user.expiration_date
@@ -245,13 +245,13 @@ exports.authorize = async (req, res) => {
   tempExpirationDate.setDate(tempExpirationDate.getDate() + 100);
   user.expiration_date = tempExpirationDate;
 
-  await User.update(user, { where: { id: user.id } })
+  await User.update(user, { where: { id: user.user_id } })
     .then((num) => {
       if (num == 1) {
         console.log("updated user's google token stuff");
       } else {
         console.log(
-          `Cannot update User with id=${user.id}. Maybe User was not found or req.body is empty!`
+          `Cannot update User with id=${user.user_id}. Maybe User was not found or req.body is empty!`
         );
       }
       let userInfo = {
