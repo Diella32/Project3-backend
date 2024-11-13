@@ -27,7 +27,8 @@ db.Project = require("./project.model.js")(sequelize, Sequelize);
 db.Interest = require("./interest.model.js")(sequelize, Sequelize);
 db.AwardCertification = require("./awardCertification.model.js")(sequelize, Sequelize);
 db.Session = require("./session.model.js")(sequelize, Sequelize);
-db.ContactInfo =require("./contactInfo.model.js")(sequelize, Sequelize);
+db.ContactInfo = require("./contactInfo.model.js")(sequelize, Sequelize);
+
 
 // Associations
 

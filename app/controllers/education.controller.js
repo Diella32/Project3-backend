@@ -1,21 +1,22 @@
 const db = require("../models");
-const Education = db.education;
+const Education = db.Education; // Corrected to db.Education
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Education
 exports.create = (req, res) => {
   if (!req.body.institution) {
-    return res.status(400).send({ message: "Institution can not be empty!" });
+    return res.status(400).send({ message: "Institution cannot be empty!" });
   }
 
   const education = {
     degree: req.body.degree,
-    fieldOfStudy: req.body.fieldOfStudy,
+    FieldOfStudy: req.body.fieldOfStudy, // Matching model's case-sensitive field
     institution: req.body.institution,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate,
-    gpa:req.body.gpa,
-    resumeId: req.body.resumeId,
+    start_date: req.body.startDate, // Matching model's field name
+    end_date: req.body.endDate, // Matching model's field name
+    gpa: req.body.gpa,
+    resume_id: req.body.resumeId,
+    user_id: req.body.userId // Add user_id if needed in your logic
   };
 
   Education.create(education)
@@ -26,7 +27,7 @@ exports.create = (req, res) => {
 // Retrieve all Education entries for a specific Resume
 exports.findAllForResume = (req, res) => {
   const resumeId = req.params.resumeId;
-  Education.findAll({ where: { resumeId: resumeId } })
+  Education.findAll({ where: { resume_id: resumeId } }) // Matching model's field name
     .then(data => res.send(data))
     .catch(err => res.status(500).send({ message: err.message || "Error retrieving Education." }));
 };
@@ -48,7 +49,7 @@ exports.findOne = (req, res) => {
 // Update an Education by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  Education.update(req.body, { where: { id: id } })
+  Education.update(req.body, { where: { education_id: id } }) // Matching model's primary key
     .then(num => {
       if (num == 1) {
         res.send({ message: "Education was updated successfully." });
@@ -62,7 +63,7 @@ exports.update = (req, res) => {
 // Delete an Education with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Education.destroy({ where: { id: id } })
+  Education.destroy({ where: { education_id: id } }) // Matching model's primary key
     .then(num => {
       if (num == 1) {
         res.send({ message: "Education was deleted successfully!" });

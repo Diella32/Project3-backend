@@ -6,7 +6,7 @@ const cors = require("cors");
 const app = express();
 const db = require("./app/models");
 
-db.sequelize.sync();
+db.sequelize.sync({ force: false });
 
 const corsOptions = {
   origin: "http://localhost:8081",
@@ -39,7 +39,11 @@ require("./app/routes/skill.routes")(app);
 require("./app/routes/awardCertification.routes")(app);
 require("./app/routes/personalLink.routes")(app);
 require("./app/routes/interest.routes")(app);
-require("./app/routes/contactInfo.routes.js")
+
+// Contact information routes (corrected with function invocation)
+require("./app/routes/contactInfo.routes.js")(app);
+
+//require("./app/routes/education.routes.js")(app);
 
 // Set port and listen for requests
 const PORT = process.env.PORT || 3029;
