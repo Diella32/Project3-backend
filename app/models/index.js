@@ -1,5 +1,6 @@
 const dbConfig = require("../config/db.config.js");
 const Sequelize = require("sequelize");
+
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
@@ -10,49 +11,64 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     idle: dbConfig.pool.idle,
   },
 });
+
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = require("./user.model.js")(sequelize, Sequelize);
-db.session = require("./session.model.js")(sequelize, Sequelize);
-db.tutorial = require("./tutorial.model.js")(sequelize, Sequelize);
-db.lesson = require("./lesson.model.js")(sequelize, Sequelize);
+// Models
+db.User = require("./user.model.js")(sequelize, Sequelize);
+db.Resume = require("./resume.model.js")(sequelize, Sequelize);
+db.Skill = require("./skill.model.js")(sequelize, Sequelize);
+db.Education = require("./education.model.js")(sequelize, Sequelize);
+db.PersonalLink = require("./personalLink.model.js")(sequelize, Sequelize);
+db.Experience = require("./experience.model.js")(sequelize, Sequelize);
+db.Project = require("./project.model.js")(sequelize, Sequelize);
+db.Interest = require("./interest.model.js")(sequelize, Sequelize);
+db.AwardCertification = require("./awardCertification.model.js")(sequelize, Sequelize);
+db.Session = require("./session.model.js")(sequelize, Sequelize);
+db.ContactInfo =require("./contactInfo.model.js")(sequelize, Sequelize);
 
-// foreign key for session
-db.user.hasMany(
-  db.session,
-  { as: "session" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
-);
-db.session.belongsTo(
-  db.user,
-  { as: "user" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
-);
+// Associations
 
-// foreign key for tutorials
-db.user.hasMany(
-  db.tutorial,
-  { as: "tutorial" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
-);
-db.tutorial.belongsTo(
-  db.user,
-  { as: "user" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
-);
+db.User.hasMany(db.Session, { as: "sessions", foreignKey: "user_id", onDelete: "CASCADE" });
+db.Session.belongsTo(db.User, { as: "user", foreignKey: "user_id" });
 
-// foreign key for lessons
-db.tutorial.hasMany(
-  db.lesson,
-  { as: "lesson" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
-);
-db.lesson.belongsTo(
-  db.tutorial,
-  { as: "tutorial" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
-);
+// User and Resume (One-to-Many)
+db.User.hasMany(db.Resume, { as: "resumes", foreignKey: "user_id", onDelete: "CASCADE" });
+db.Resume.belongsTo(db.User, { as: "user", foreignKey: "user_id" });
+
+
+// Resume and ContactInfo (One-to-One)
+db.Resume.hasOne(db.ContactInfo, { as: "contactInfo", foreignKey: "resume_id", onDelete: "CASCADE" });
+db.ContactInfo.belongsTo(db.Resume, { as: "resume", foreignKey: "resume_id" });
+
+// Resume and Skills (Many-to-Many)
+db.Resume.belongsToMany(db.Skill, { through: "ResumeSkills", as: "skills", foreignKey: "resume_id" });
+db.Skill.belongsToMany(db.Resume, { through: "ResumeSkills", as: "resumes", foreignKey: "skill_id" });
+
+// Resume and Education (One-to-Many)
+db.Resume.hasMany(db.Education, { as: "education", foreignKey: "resume_id", onDelete: "CASCADE" });
+db.Education.belongsTo(db.Resume, { as: "resume", foreignKey: "resume_id" });
+
+// Resume and Personal Links (Many-to-Many)
+db.Resume.belongsToMany(db.PersonalLink, { through: "ResumePersonalLinks", as: "personalLinks", foreignKey: "resume_id" });
+db.PersonalLink.belongsToMany(db.Resume, { through: "ResumePersonalLinks", as: "resumes", foreignKey: "personal_link_id" });
+
+// Resume and Experiences (Many-to-Many)
+db.Resume.belongsToMany(db.Experience, { through: "ResumeExperiences", as: "experiences", foreignKey: "resume_id" });
+db.Experience.belongsToMany(db.Resume, { through: "ResumeExperiences", as: "resumes", foreignKey: "experience_id" });
+
+// Resume and Projects (Many-to-Many)
+db.Resume.belongsToMany(db.Project, { through: "ResumeProjects", as: "projects", foreignKey: "resume_id" });
+db.Project.belongsToMany(db.Resume, { through: "ResumeProjects", as: "resumes", foreignKey: "project_id" });
+
+// Resume and Interests (Many-to-Many)
+db.Resume.belongsToMany(db.Interest, { through: "ResumeInterests", as: "interests", foreignKey: "resume_id" });
+db.Interest.belongsToMany(db.Resume, { through: "ResumeInterests", as: "resumes", foreignKey: "interest_id" });
+
+// Resume and Awards/Certifications (One-to-Many)
+db.Resume.hasMany(db.AwardCertification, { as: "awardCertifications", foreignKey: "resume_id", onDelete: "CASCADE" });
+db.AwardCertification.belongsTo(db.Resume, { as: "resume", foreignKey: "resume_id" });
 
 module.exports = db;

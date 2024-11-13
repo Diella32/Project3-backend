@@ -4,12 +4,11 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-
 const db = require("./app/models");
 
 db.sequelize.sync();
 
-var corsOptions = {
+const corsOptions = {
   origin: "http://localhost:8081",
 };
 
@@ -22,17 +21,27 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-// simple route
+// Simple welcome route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to the resume management application." });
 });
 
+// Routes for authentication and user management
 require("./app/routes/auth.routes.js")(app);
 require("./app/routes/user.routes")(app);
-require("./app/routes/tutorial.routes")(app);
-require("./app/routes/lesson.routes")(app);
 
-// set port, listen for requests
+// Resume-related routes
+require("./app/routes/resume.routes")(app);
+require("./app/routes/education.routes")(app);
+require("./app/routes/experience.routes")(app);
+require("./app/routes/project.routes")(app);
+require("./app/routes/skill.routes")(app);
+require("./app/routes/awardCertification.routes")(app);
+require("./app/routes/personalLink.routes")(app);
+require("./app/routes/interest.routes")(app);
+require("./app/routes/contactInfo.routes.js")
+
+// Set port and listen for requests
 const PORT = process.env.PORT || 3029;
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, () => {
