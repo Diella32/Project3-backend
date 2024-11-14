@@ -21,6 +21,6 @@ module.exports = (app) => {
     // Delete all PersonalLinks for a specific resume (if needed)
     router.delete("/resume/:resumeId", [authenticate], PersonalLinks.deleteAll);
   
-    app.use("/resume/PersonalLinks", router);
+    app.use("/resume-t9/PersonalLinks", router);
   };
   

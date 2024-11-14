@@ -24,5 +24,5 @@ module.exports = (app) => {
     // Delete all contactInfo
     router.delete("/", [authenticate], contactInfo.deleteAll);
   
-    app.use("/resume/contactInfo", router);
+    app.use("/resume-t9/contactInfo", router);
   };
