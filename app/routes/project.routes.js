@@ -1,5 +1,5 @@
 module.exports = (app) => {
-    const projects = require("../controllers/experience.controller.js");
+    const projects = require("../controllers/project.controller.js");
     const { authenticate } = require("../authorization/authorization.js");
     const router = require("express").Router();
   
@@ -7,7 +7,7 @@ module.exports = (app) => {
     router.post("/", [authenticate], projects.create);
   
     // Retrieve all Experiences for a specific resume
-    router.get("/resume/:resumeId", [authenticate], projects.findAllForResume);
+    router.get("/user/:userId", [authenticate], projects.findAllForUser);
   
     // Retrieve a single Project by ID
     router.get("/:id", [authenticate], projects.findOne);

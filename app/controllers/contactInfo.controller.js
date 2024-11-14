@@ -1,10 +1,10 @@
 const db = require("../models");
-const ContactInfo = db.contactInfo;
+const ContactInfo = db.ContactInfo;
 const Op = db.Sequelize.Op;
 // Create and Save a new ContactInfo
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.careerPosition) {
+  if (!req.body.address) {
     res.status(400).send({
       message: "Content can not be empty!",
     });
@@ -13,10 +13,11 @@ exports.create = (req, res) => {
   // Create a ContactInfo
   const contactInfo = {
     phone_number: req.body.phone_number,
-    fname:req.body.fname,
-    lname:req.body.fname,
+    fName:req.body.fName,
+    lName:req.body.lName,
     address: req.body.address,
     email: req.body.email,
+    user_id: req.body.userId,
   };
   // Save ContactInfo in the database
   ContactInfo.create(contactInfo)
@@ -31,23 +32,24 @@ exports.create = (req, res) => {
     });
 };
 // Retrieve all ContactInfos from the database.
-exports.findAll = (req, res) => {
-  ContactInfo.findAll()
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving contactInfos.",
-      });
-    });
-};
+// exports.findAll = (req, res) => {
+//   const userId = req.params.userId;
+//   ContactInfo.findAll({ where: { user_id: userId }})
+//     .then((data) => {
+//       res.send(data);
+//     })
+//     .catch((err) => {
+//       res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while retrieving contactInfos.",
+//       });
+//     });
+// };
 
 // Find a single ContactInfo with an id
 exports.findAllForUser = (req, res) => {
   const userId = req.params.userId;
-  ContactInfo.findAll({ where: { userId: userId } })
+  ContactInfo.findAll({ where: { user_id: userId } })
     .then((data) => {
       if (data) {
         res.send(data);
@@ -87,8 +89,7 @@ exports.findOne = (req, res) => {
 // Update a ContactInfo by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  ContactInfo.update(req.body, {
-    where: { id: id },
+  ContactInfo.update(req.body, {where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
@@ -110,8 +111,7 @@ exports.update = (req, res) => {
 // Delete a ContactInfo with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  ContactInfo.destroy({
-    where: { id: id },
+  ContactInfo.destroy({where: { id: id },
   })
     .then((num) => {
       if (num == 1) {

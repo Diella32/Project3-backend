@@ -6,15 +6,6 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
-    resume_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Resumes', // Assuming 'Resumes' is the name of the Resume model table
-        key: 'resume_id'
-      },
-      onDelete: 'CASCADE'
-    },
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

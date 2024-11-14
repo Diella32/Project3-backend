@@ -7,7 +7,7 @@ module.exports = (app) => {
 router.post("/", [authenticate], education.create);
   
 // Retrieve all Education entries for a specific resume
-router.get("/resume/:rsume_id", [authenticate], education.findAllForResume);
+router.get("/user/:userId", [authenticate], education.findAllForUser);
   
 // Retrieve a single Education entry by ID
 router.get("/:id", [authenticate], education.findOne);
@@ -19,7 +19,7 @@ router.put("/:id", [authenticate], education.update);
 router.delete("/:id", [authenticate], education.delete);
   
  // Delete all education
-    router.delete("/", [authenticate], education.deleteAll);
+    router.delete("/resume/:resumeId", [authenticate], education.deleteAll);
   
     app.use("/resume/education", router);
 };

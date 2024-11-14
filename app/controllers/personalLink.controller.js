@@ -1,5 +1,5 @@
 const db = require("../models");
-const PersonalLink = db.personalLink;
+const PersonalLink = db.PersonalLink;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new PersonalLink
@@ -11,7 +11,8 @@ exports.create = (req, res) => {
   const personalLink = {
     url: req.body.url,
     type: req.body.type, // e.g., social, GitHub, portfolio
-    resumeId: req.body.resumeId,
+    user_id: req.body.userId,
+
   };
 
   PersonalLink.create(personalLink)
@@ -20,12 +21,24 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all PersonalLinks for a specific Resume
-exports.findAllForResume = (req, res) => {
-  const resumeId = req.params.resumeId;
-  PersonalLink.findAll({ where: { resumeId: resumeId } })
-    .then(data => res.send(data))
-    .catch(err => res.status(500).send({ message: err.message || "Error retrieving Personal Links." }));
+exports.findAllForUser = (req, res) => {
+  const userId = req.params.userId;
+  PersonalLink.findAll({ where: { user_id: userId } })
+  .then((data) => {
+    if (data) {
+      res.send(data);
+    } else {
+      res.status(404).send({
+        message: `Cannot find PersonalLink for user with id=${userId}.`,
+      });
+    }
+  })
+  .catch((err) => {
+    res.status(500).send({message:err.message ||"Error retrieving Projects for user with id=" 
+    });
+  });
 };
+
 
 // Find a single PersonalLink with an id
 exports.findOne = (req, res) => {
@@ -44,7 +57,7 @@ exports.findOne = (req, res) => {
 // Update a PersonalLink by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  PersonalLink.update(req.body, { where: { id: id } })
+  PersonalLink.update(req.body, { where: { link_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "PersonalLink was updated successfully." });
@@ -58,7 +71,7 @@ exports.update = (req, res) => {
 // Delete a PersonalLink with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  PersonalLink.destroy({ where: { id: id } })
+  PersonalLink.destroy({ where: { link_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "PersonalLink was deleted successfully!" });
