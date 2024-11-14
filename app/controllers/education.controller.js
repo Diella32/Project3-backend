@@ -1,5 +1,5 @@
 const db = require("../models");
-const Education = db.education;
+const Education = db.Education;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Education
@@ -10,12 +10,13 @@ exports.create = (req, res) => {
 
   const education = {
     degree: req.body.degree,
-    fieldOfStudy: req.body.fieldOfStudy,
+    FieldOfStudy: req.body.FieldOfStudy,
     institution: req.body.institution,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
     gpa:req.body.gpa,
-    resumeId: req.body.resumeId,
+    user_id: req.body.userId,
+
   };
 
   Education.create(education)
@@ -24,9 +25,9 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Education entries for a specific Resume
-exports.findAllForResume = (req, res) => {
-  const resumeId = req.params.resumeId;
-  Education.findAll({ where: { resumeId: resumeId } })
+exports.findAllForUser = (req, res) => {
+  const userId = req.params.userId;
+  Education.findAll({ where: { user_Id: userId } })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({ message: err.message || "Error retrieving Education." }));
 };

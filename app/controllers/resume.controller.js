@@ -11,6 +11,8 @@ exports.create = (req, res) => {
   const resume = {
     title: req.body.title,
     userId: req.body.userId,
+    introduction: req.body.introduction,
+    template_choice: req.body.template_choice,
   };
 
   Resume.create(resume)

@@ -12,7 +12,7 @@ exports.create = (req, res) => {
     project_name: req.body.project_name,
     description: req.body.description,
     technologies_used:req.body.technologies_used,
-    url: req.body.url,
+    project_link: req.body.project_link,
     user_id: req.body.userId,
   };
 
@@ -63,7 +63,7 @@ exports.findOne = (req, res) => {
 // Update a Project by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  Project.update(req.body, { where: { id: id } })
+  Project.update(req.body, { where: { project_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Project was updated successfully." });
@@ -77,7 +77,7 @@ exports.update = (req, res) => {
 // Delete a Project with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Project.destroy({ where: { id: id } })
+  Project.destroy({ where: { project_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Project was deleted successfully!" });

@@ -57,7 +57,7 @@ exports.findOne = (req, res) => {
 // Update a PersonalLink by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  PersonalLink.update(req.body, { where: { id: id } })
+  PersonalLink.update(req.body, { where: { link_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "PersonalLink was updated successfully." });
@@ -71,7 +71,7 @@ exports.update = (req, res) => {
 // Delete a PersonalLink with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  PersonalLink.destroy({ where: { id: id } })
+  PersonalLink.destroy({ where: { link_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "PersonalLink was deleted successfully!" });

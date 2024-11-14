@@ -7,10 +7,10 @@ module.exports = (app) => {
     router.post("/", [authenticate], contactInfo.create);
   
     // Retrieve all contactInfo
-    router.get("/", [authenticate], contactInfo.findAll);
+    //router.get("/", [authenticate], contactInfo.findAll);
   
     // Retrieve all contactInfo for user
-    router.get("/:userId", [authenticate], contactInfo.findAllForUser);
+    router.get("/user/:userId", [authenticate], contactInfo.findAllForUser);
   
     // Retrieve a single contactInfo with id
     router.get("/:id", [authenticate], contactInfo.findOne);
