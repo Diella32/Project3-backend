@@ -39,7 +39,7 @@ require("./app/routes/skill.routes")(app);
 require("./app/routes/awardCertification.routes")(app);
 require("./app/routes/personalLink.routes")(app);
 require("./app/routes/interest.routes")(app);
-require("./app/routes/contactInfo.routes.js")
+require("./app/routes/contactInfo.routes.js")(app)
 
 // Set port and listen for requests
 const PORT = process.env.PORT || 3029;
