@@ -1,5 +1,5 @@
 const db = require("../models");
-const Resume = db.resume;
+const Resume = db.Resume;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Resume
@@ -11,6 +11,8 @@ exports.create = (req, res) => {
   const resume = {
     title: req.body.title,
     userId: req.body.userId,
+    introduction: req.body.introduction,
+    template_choice: req.body.template_choice,
   };
 
   Resume.create(resume)
@@ -21,7 +23,7 @@ exports.create = (req, res) => {
 // Retrieve all Resumes for a specific User
 exports.findAllForUser = (req, res) => {
   const userId = req.params.userId;
-  Resume.findAll({ where: { userId: userId } })
+  Resume.findAll({ where: { user_id: userId } })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({ message: err.message || "Error retrieving Resumes." }));
 };
