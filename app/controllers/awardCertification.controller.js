@@ -1,20 +1,20 @@
 
   const db = require("../models");
-  const AwardCertifications = db.AwardCertifications;
+  const AwardCertifications = db.AwardCertification;
   const Op = db.Sequelize.Op;
   
   // Create and Save a new Certification
   exports.create = (req, res) => {
-    if (!req.body.url) {
+    if (!req.body.user_id) {
       return res.status(400).send({ message: "URL can not be empty!" });
     }
   
     const awardCertification = {
       award_name: req.body.award_name,
       organization: req.body.organization,
-      user_id: req.body.userId,
+      user_id: req.body.user_id,
     };
-  
+    console.log(awardCertification)
     AwardCertifications.create(awardCertification)
       .then(data => res.send(data))
       .catch(err => res.status(500).send({ message: err.message || "Some error occurred while creating the Award/Certification." }));

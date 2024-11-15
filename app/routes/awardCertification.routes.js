@@ -22,7 +22,7 @@ module.exports = (app) => {
   router.delete("/resume/:resumeId", [authenticate], AwardCertifications.deleteAll);
 
   
-  app.use("/resume-t9/AwardCertifications", router);
+  app.use("/resume-t9/AwardCertification", router);
 };
 
 
