@@ -1,14 +1,13 @@
 [Unit]
-Description=NodeJS Tutorial App
+Description=NodeJS Resume App  
 After=network.target
  
 [Service]
 Type=simple
 User=ubuntu
-WorkingDirectory=/home/ubuntu/nodeapps/tutorial-backend/
+WorkingDirectory=/home/ubuntu/nodeapps/2024/Project3-backend.service/
 ExecStart=/usr/bin/npm run start
 Restart=on-failure
  
 [Install]
 WantedBy=multi-user.target
-
