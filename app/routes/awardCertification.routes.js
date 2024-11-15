@@ -4,25 +4,25 @@ module.exports = (app) => {
   const router = require("express").Router();
 
   // Create a new AwardCertification for a resume
-  router.post("/", [authenticate], AwardCertifications.create);
+  router.post("/", [authenticate], AwardCertification.create);
 
   // Retrieve all AwardCertifications for a specific resume
-  router.get("/user/:userId", [authenticate], AwardCertifications.findAllForUser);
+  router.get("/user/:userId", [authenticate], AwardCertification.findAllForUser);
 
   // Retrieve a single AwardCertification by ID
-  router.get("/:id", [authenticate], AwardCertifications.findOne);
+  router.get("/:id", [authenticate], AwardCertification.findOne);
 
   // Update an AwardCertification by ID
-  router.put("/:id", [authenticate], AwardCertifications.update);
+  router.put("/:id", [authenticate], AwardCertification.update);
 
   // Delete an AwardCertification by ID
-  router.delete("/:id", [authenticate], AwardCertifications.delete);
+  router.delete("/:id", [authenticate], AwardCertification.delete);
 
   // Delete all AwardCertifications for a specific resume
-  router.delete("/resume/:resumeId", [authenticate], AwardCertifications.deleteAll);
+  router.delete("/resume/:resumeId", [authenticate], AwardCertification.deleteAll);
 
   
-  app.use("/resume-t9/AwardCertifications", router);
+  app.use("/resume-t9/AwardCertification", router);
 };
 
 

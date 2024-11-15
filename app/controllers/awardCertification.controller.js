@@ -1,6 +1,6 @@
 
   const db = require("../models");
-  const AwardCertifications = db.AwardCertifications;
+  const AwardCertification = db.AwardCertification;
   const Op = db.Sequelize.Op;
   
   // Create and Save a new Certification
@@ -15,7 +15,7 @@
       user_id: req.body.userId,
     };
   
-    AwardCertifications.create(awardCertification)
+    AwardCertification.create(awardCertification)
       .then(data => res.send(data))
       .catch(err => res.status(500).send({ message: err.message || "Some error occurred while creating the Award/Certification." }));
   };
@@ -23,7 +23,7 @@
   // Retrieve all Award/Certification for a specific Resume
   exports.findAllForUser = (req, res) => {
     const userId = req.params.userId;
-    AwardCertifications.findAll({ where: { user_id: userId } })
+    AwardCertification.findAll({ where: { user_id: userId } })
     .then((data) => {
       if (data) {
         res.send(data);
@@ -43,7 +43,7 @@
   // Find a single Award/Certification with an id
   exports.findOne = (req, res) => {
     const id = req.params.id;
-    AwardCertifications.findByPk(id)
+    AwardCertification.findByPk(id)
       .then(data => {
         if (data) {
           res.send(data);
@@ -57,7 +57,7 @@
   // Update an AwardCertification by the id in the request
   exports.update = (req, res) => {
     const id = req.params.id;
-    AwardCertifications.update(req.body, { where: { id: id } })
+    AwardCertification.update(req.body, { where: { id: id } })
       .then(num => {
         if (num == 1) {
           res.send({ message: "Award/Certifications was updated successfully." });
@@ -71,7 +71,7 @@
   // Delete an Award/Certification with the specified id in the request
   exports.delete = (req, res) => {
     const id = req.params.id;
-    AwardCertifications.destroy({ where: { id: id } })
+    AwardCertification.destroy({ where: { id: id } })
       .then(num => {
         if (num == 1) {
           res.send({ message: "Award/Certificate was deleted successfully!" });
@@ -84,7 +84,7 @@
   
   // Delete all PersonalLinks from the database.
   exports.deleteAll = (req, res) => {
-    AwardCertifications.destroy({ where: {}, truncate: false })
+    AwardCertification.destroy({ where: {}, truncate: false })
       .then(nums => res.send({ message: `${nums} Award/Certifications were deleted successfully!` }))
       .catch(err => res.status(500).send({ message: err.message || "Some error occurred while removing all Award/Certifications." }));
   };
