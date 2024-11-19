@@ -28,10 +28,10 @@ app.get("/", (req, res) => {
 
 // Routes for authentication and user management
 require("./app/routes/auth.routes.js")(app);
+require("./app/routes/resume.routes")(app);
 require("./app/routes/user.routes")(app);
 
 // Resume-related routes
-require("./app/routes/resume.routes")(app);
 require("./app/routes/education.routes")(app);
 require("./app/routes/experience.routes")(app);
 require("./app/routes/project.routes")(app);
