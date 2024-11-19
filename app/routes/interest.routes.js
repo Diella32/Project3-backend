@@ -8,6 +8,10 @@ module.exports = (app) => {
   
     // Retrieve all interest for a specific resume
     router.get("/resume/:resumeId", [authenticate], interest.findAllForResume);
+
+
+    // Retrieve all interest for a specific resume
+    router.get("/user/:userId", [authenticate], interest.findAllForUser);
   
     // Retrieve a single interest by ID
     router.get("/:id", [authenticate], interest.findOne);

@@ -1,27 +1,27 @@
 // models/project.js
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
     const Project = sequelize.define('Project', {
       project_id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
-      resume_id: {
-        type: DataTypes.INTEGER,
+      user_id: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       project_name: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
       },
       description: {
-        type: DataTypes.TEXT
+        type: Sequelize.TEXT
       },
       technologies_used: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       },
       project_link: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       }
     }); 
     return Project;

@@ -7,7 +7,7 @@ module.exports = (app) => {
     router.post("/", [authenticate], PersonalLinks.create);
   
     // Retrieve all PersonalLinks for a specific resume
-    router.get("/resume/:resumeId", [authenticate], PersonalLinks.findAllForResume);
+    router.get("/user/:userId", [authenticate], PersonalLinks.findAllForUser);
   
     // Retrieve a single PersonalLink by ID
     router.get("/:id", [authenticate], PersonalLinks.findOne);

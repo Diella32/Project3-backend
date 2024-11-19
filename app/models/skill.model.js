@@ -1,22 +1,13 @@
 // models/skill.js
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   const Skill = sequelize.define('Skill', {
     skill_id: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    resume_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Resumes', // Assuming 'Resumes' is the name of the Resume model table
-        key: 'resume_id'
-      },
-      onDelete: 'CASCADE'
-    },
     user_id: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       references: {
         model: 'Users', // Assuming 'Users' is the name of the User model table
@@ -25,11 +16,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     },
     skill_name: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false
     },
     category: {
-      type: DataTypes.STRING
+      type: Sequelize.STRING
     }
   });
 

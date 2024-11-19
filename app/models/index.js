@@ -18,15 +18,15 @@ db.sequelize = sequelize;
 
 // Models
 db.User = require("./user.model.js")(sequelize, Sequelize);
+db.Session = require("./session.model.js")(sequelize, Sequelize);
+db.Education = require("./education.model.js")(sequelize, Sequelize);
 db.Resume = require("./resume.model.js")(sequelize, Sequelize);
 db.Skill = require("./skill.model.js")(sequelize, Sequelize);
-db.Education = require("./education.model.js")(sequelize, Sequelize);
 db.PersonalLink = require("./personalLink.model.js")(sequelize, Sequelize);
 db.Experience = require("./experience.model.js")(sequelize, Sequelize);
 db.Project = require("./project.model.js")(sequelize, Sequelize);
 db.Interest = require("./interest.model.js")(sequelize, Sequelize);
 db.AwardCertification = require("./awardCertification.model.js")(sequelize, Sequelize);
-db.Session = require("./session.model.js")(sequelize, Sequelize);
 db.ContactInfo =require("./contactInfo.model.js")(sequelize, Sequelize);
 
 // Associations
@@ -37,6 +37,11 @@ db.Session.belongsTo(db.User, { as: "user", foreignKey: "user_id" });
 // User and Resume (One-to-Many)
 db.User.hasMany(db.Resume, { as: "resumes", foreignKey: "user_id", onDelete: "CASCADE" });
 db.Resume.belongsTo(db.User, { as: "user", foreignKey: "user_id" });
+
+// User and Project (One-to-Many)
+db.User.hasMany(db.Project, { as: db.Project.name, foreignKey: "user_id", onDelete: "CASCADE" });
+db.Project.belongsTo(db.User, { as: db.User.name, foreignKey: "user_id", onDelete: "CASCADE" });
+
 
 
 // Resume and ContactInfo (One-to-One)
