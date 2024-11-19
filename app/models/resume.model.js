@@ -1,5 +1,5 @@
 // models/resume.js
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, DataTypes) => {
   const Resume = sequelize.define('Resume', {
     resume_id: {
       type: DataTypes.INTEGER,
