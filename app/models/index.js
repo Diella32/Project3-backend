@@ -17,8 +17,9 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // Models
-db.Resume = require("./resume.model.js")(sequelize, Sequelize);
 db.User = require("./user.model.js")(sequelize, Sequelize);
+db.Session = require("./session.model.js")(sequelize, Sequelize);
+db.Resume = require("./resume.model.js")(sequelize, Sequelize);
 db.Skill = require("./skill.model.js")(sequelize, Sequelize);
 db.Education = require("./education.model.js")(sequelize, Sequelize);
 db.PersonalLink = require("./personalLink.model.js")(sequelize, Sequelize);
@@ -26,7 +27,6 @@ db.Experience = require("./experience.model.js")(sequelize, Sequelize);
 db.Project = require("./project.model.js")(sequelize, Sequelize);
 db.Interest = require("./interest.model.js")(sequelize, Sequelize);
 db.AwardCertification = require("./awardCertification.model.js")(sequelize, Sequelize);
-db.Session = require("./session.model.js")(sequelize, Sequelize);
 db.ContactInfo =require("./contactInfo.model.js")(sequelize, Sequelize);
 
 // Associations
