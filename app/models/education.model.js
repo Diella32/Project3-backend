@@ -1,36 +1,36 @@
 // models/education.js
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
     const Education = sequelize.define('Education', {
       education_id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
       user_id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       FieldOfStudy: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
       },
 
       institution: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
       },
 
       degree: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       },
       start_date: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       },
       end_date: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       },
       gpa: {
-        type: DataTypes.DECIMAL(3, 2)
+        type: Sequelize.DECIMAL(3, 2)
       }
     });
   

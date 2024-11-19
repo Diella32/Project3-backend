@@ -1,13 +1,13 @@
 // models/resume.js
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   const Resume = sequelize.define('Resume', {
     resume_id: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
     user_id: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       references: {
         model: 'Users', // Assuming 'Users' is the name of the User model table
@@ -16,14 +16,14 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     },
     resume_name: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false
     },
     introduction: {
-      type: DataTypes.TEXT
+      type: Sequelize.TEXT
     },
     template_choice: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false
     }
   });
