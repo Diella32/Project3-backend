@@ -1,5 +1,5 @@
 const db = require("../models");
-const Project = db.project;
+const Project = db.Project;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Project
@@ -11,8 +11,9 @@ exports.create = (req, res) => {
   const project = {
     project_name: req.body.project_name,
     description: req.body.description,
-    url: req.body.url,
-    resumeId: req.body.resumeId,
+    technologies_used:req.body.technologies_used,
+    project_link: req.body.project_link,
+    user_id: req.body.userId,
   };
 
   Project.create(project)
@@ -21,12 +22,29 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Projects for a specific Resume
-exports.findAllForResume = (req, res) => {
-  const resumeId = req.params.resumeId;
-  Project.findAll({ where: { resumeId: resumeId } })
-    .then(data => res.send(data))
-    .catch(err => res.status(500).send({ message: err.message || "Error retrieving Projects." }));
+exports.findAllForUser = (req, res) => {
+  const userId = req.params.userId;
+  Project.findAll({ where: { user_id: userId } })
+  .then((data) => {
+    if (data) {
+      res.send(data);
+    } else {
+      res.status(404).send({
+        message: `Cannot find Projects for user with id=${userId}.`,
+      });
+    }
+  })
+  .catch((err) => {
+    res.status(500).send({message:err.message ||"Error retrieving Projects for user with id=" 
+    });
+  });
 };
+
+
+  
+    
+
+
 
 // Find a single Project with an id
 exports.findOne = (req, res) => {
@@ -45,7 +63,7 @@ exports.findOne = (req, res) => {
 // Update a Project by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  Project.update(req.body, { where: { id: id } })
+  Project.update(req.body, { where: { project_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Project was updated successfully." });
@@ -59,7 +77,7 @@ exports.update = (req, res) => {
 // Delete a Project with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Project.destroy({ where: { id: id } })
+  Project.destroy({ where: { project_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Project was deleted successfully!" });

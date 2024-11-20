@@ -8,7 +8,6 @@ authenticate = (req, res, next) => {
   if (authHeader != null) {
     if (authHeader.startsWith("Bearer ")) {
       token = authHeader.slice(7);
-
       Session.findAll({ where: { token: token } })
         .then((data) => {
           let session = data[0];
