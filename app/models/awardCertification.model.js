@@ -1,6 +1,8 @@
 // models/awardCertification.js
-module.exports = (sequelize, Sequelize) => {
-    const AwardCertification = sequelize.define('AwardCertification', {
+
+module.exports = (sequelize, DataTypes) => {
+    const AwardCertification = sequelize.define('awardCertification', {
+
       award_id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
