@@ -5,17 +5,17 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Experience
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.jobTitle || !req.body.employer || !req.body.startYear) {
+  if (!req.body.job_title || !req.body.company || !req.body.start_date) {
     console.log(req.body);
     return res.status(400).send({ message: "Job title, company, start date, and resume ID are required!" });
   }
 
   // Create an Experience object
   const experience = {
-    job_title: req.body.jobTitle,
-    company: req.body.employer,
-    start_date: req.body.startYear,
-    end_date: req.body.endYear,
+    job_title: req.body.job_title,
+    company: req.body.company,
+    start_date: req.body.start_date,
+    end_date: req.body.end_date,
     //resumeId: req.body.resumeId,
     description: req.body.description, // Fixed spelling
     user_id: req.body.userId
@@ -70,16 +70,23 @@ exports.update = (req, res) => {
   const id = req.params.id;
 
   // Validate request
-  if (!req.body.job_title || !req.body.company || !req.body.startDate) {
-    return res.status(400).send({ message: "Job title, company, and start date are required for updating!" });
+  if (!req.body.job_title || !req.body.company || !req.body.start_date) {
+    return res.status(400).send({ 
+      success: false,
+      message: "Job title, company, and start date are required for updating!" 
+    });
   }
 
   Experience.update(req.body, { where: { experience_id: id } })
     .then(num => {
       if (num == 1) {
-        res.send({ message: "Experience was updated successfully." });
+        res.send({
+          success: true,
+          message: "Experience was updated successfully."
+        });
       } else {
         res.status(404).send({
+          success: false,
           message: `Cannot update Experience with id=${id}. Maybe Experience was not found or req.body is empty!`
         });
       }
@@ -87,6 +94,7 @@ exports.update = (req, res) => {
     .catch(err => {
       console.error("Error updating Experience with id:", id, err);
       res.status(500).send({
+        success: false,
         message: err.message || `Error updating Experience with id=${id}`
       });
     });
