@@ -18,10 +18,10 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       },
       start_date: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       end_date: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       description: {
         type: Sequelize.TEXT

@@ -74,7 +74,7 @@ exports.update = (req, res) => {
     return res.status(400).send({ message: "Job title, company, and start date are required for updating!" });
   }
 
-  Experience.update(req.body, { where: { id: id } })
+  Experience.update(req.body, { where: { experience_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Experience was updated successfully." });
@@ -95,7 +95,7 @@ exports.update = (req, res) => {
 // Delete an Experience with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Experience.destroy({ where: { id: id } })
+  Experience.destroy({ where: { experience_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Experience was deleted successfully!" });
