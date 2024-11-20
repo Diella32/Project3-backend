@@ -1,6 +1,6 @@
 // models/education.js
 
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
     const Education = sequelize.define('education', {
 
       education_id: {
