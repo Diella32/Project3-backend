@@ -1,6 +1,6 @@
 // models/personalLinks.js
 
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
     const PersonalLinks = sequelize.define('personalLinks', {
 
       link_id: {
