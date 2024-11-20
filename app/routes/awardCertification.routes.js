@@ -10,21 +10,19 @@ module.exports = (app) => {
   router.get("/user/:userId", [authenticate], AwardCertifications.findAllForUser);
 
   // Retrieve a single AwardCertification by ID
-  router.get("/:id", [authenticate], AwardCertifications.findOne);
+  router.get("/:award_id", [authenticate], AwardCertifications.findOne);
 
   // Update an AwardCertification by ID
-  router.put("/:id", [authenticate], AwardCertifications.update);
+  router.put("/:award_id", [authenticate], AwardCertifications.update);
 
   // Delete an AwardCertification by ID
-  router.delete("/:id", [authenticate], AwardCertifications.delete);
+  router.delete("/:award_id", [authenticate], AwardCertifications.delete);
 
   // Delete all AwardCertifications for a specific resume
-  router.delete("/resume/:resumeId", [authenticate], AwardCertifications.deleteAll);
-
+  router.delete("/resume/:resumeId", [authenticate], AwardCertifications.deleteAllForResume);
   
-  app.use("/resume-t9/AwardCertifications", router);
+  app.use("/resume-t9/AwardCertification", router);
 };
-
 
 
 
