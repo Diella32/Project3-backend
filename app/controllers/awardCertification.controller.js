@@ -6,18 +6,20 @@
   // Create and Save a new Certification
   exports.create = (req, res) => {
     if (!req.body.user_id) {
-      return res.status(400).send({ message: "URL can not be empty!" });
+      return res.status(400).send({ message: "User ID cannot be empty!" });
     }
   
     const awardCertification = {
       award_name: req.body.award_name,
       organization: req.body.organization,
-      user_id: req.body.user_id,
+      user_id: req.body.user_id
     };
-    console.log(awardCertification)
+  
     AwardCertifications.create(awardCertification)
       .then(data => res.send(data))
-      .catch(err => res.status(500).send({ message: err.message || "Some error occurred while creating the Award/Certification." }));
+      .catch(err => res.status(500).send({
+        message: err.message || "Error creating Award/Certification."
+      }));
   };
   
   // Retrieve all Award/Certification for a specific Resume
@@ -42,50 +44,73 @@
   
   // Find a single Award/Certification with an id
   exports.findOne = (req, res) => {
-    const id = req.params.id;
-    AwardCertifications.findByPk(id)
+    const award_id = req.params.award_id;
+    AwardCertifications.findByPk(award_id)
       .then(data => {
         if (data) {
           res.send(data);
         } else {
-          res.status(404).send({ message: `Cannot find Award/Certification with id=${id}.` });
+          res.status(404).send({
+            message: `Cannot find Award/Certification with award_id=${award_id}.`
+          });
         }
       })
-      .catch(err => res.status(500).send({ message: err.message || "Error retrieving PersonalLink with id=" + id }));
+      .catch(err => {
+        res.status(500).send({
+          message: err.message || "Error retrieving Award/Certification with award_id=" + award_id
+        });
+      });
   };
   
-  // Update an AwardCertification by the id in the request
   exports.update = (req, res) => {
-    const id = req.params.id;
-    AwardCertifications.update(req.body, { where: { id: id } })
+    const award_id = req.params.award_id;
+    const updateData = {
+      award_name: req.body.award_name,
+      organization: req.body.organization,
+      user_id: req.body.user_id
+    };
+    AwardCertifications.update(updateData, {
+      where: { award_id: award_id }  // Use award_id in where clause
+    })
       .then(num => {
-        if (num == 1) {
-          res.send({ message: "Award/Certifications was updated successfully." });
+        if (num[0] === 1) {
+          res.send({
+            message: "Award/Certification was updated successfully."
+          });
         } else {
-          res.send({ message: `Cannot update AwardCertifications with id=${id}. Maybe the Award/Certifications was not found or req.body is empty!` });
+          res.status(404).send({
+            message: `Cannot update Award/Certification with award_id=${award_id}. Maybe Award/Certification was not found!`
+          });
         }
       })
-      .catch(err => res.status(500).send({ message: err.message || "Error updating PersonalLink with id=" + id }));
+      .catch(err => {
+        res.status(500).send({
+          message: `Error updating Award/Certification with award_id=${award_id}: ${err.message}`
+        });
+      });
   };
+ 
   
-  // Delete an Award/Certification with the specified id in the request
   exports.delete = (req, res) => {
-    const id = req.params.id;
-    AwardCertifications.destroy({ where: { id: id } })
+    const award_id = req.params.award_id;
+    AwardCertifications.destroy({
+      where: { award_id: award_id }
+    })
       .then(num => {
         if (num == 1) {
-          res.send({ message: "Award/Certificate was deleted successfully!" });
+          res.send({
+            message: "Award/Certification was deleted successfully!"
+          });
         } else {
-          res.send({ message: `Cannot delete Award/Certificate with id=${id}. Maybe Award/Certifications was not found!` });
+          res.send({
+            message: `Cannot delete Award/Certification with award_id=${award_id}. Maybe Award/Certification was not found!`
+          });
         }
       })
-      .catch(err => res.status(500).send({ message: err.message || "Could not delete Award/Certifications with id=" + id }));
-  };
-  
-  // Delete all PersonalLinks from the database.
-  exports.deleteAll = (req, res) => {
-    AwardCertifications.destroy({ where: {}, truncate: false })
-      .then(nums => res.send({ message: `${nums} Award/Certifications were deleted successfully!` }))
-      .catch(err => res.status(500).send({ message: err.message || "Some error occurred while removing all Award/Certifications." }));
+      .catch(err => {
+        res.status(500).send({
+          message: err.message || "Could not delete Award/Certification with award_id=" + award_id
+        });
+      });
   };
   
