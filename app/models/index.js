@@ -32,11 +32,11 @@ db.ContactInfo =require("./contactInfo.model.js")(sequelize, Sequelize);
 
 // Associations
 
-db.User.hasMany(db.Session, { as: "sessions", foreignKey: {allowNull: false}, onDelete: "CASCADE" });
+db.User.hasMany(db.Session, { as: "session", foreignKey: {allowNull: false}, onDelete: "CASCADE" });
 db.Session.belongsTo(db.User, { as: "user", foreignKey: {allowNull: false} });
 
 // User and Resume (One-to-Many)
-db.User.hasMany(db.Resume, { as: "resumes", foreignKey: {allowNull: false}, onDelete: "CASCADE" });
+db.User.hasMany(db.Resume, { as: "resume", foreignKey: {allowNull: false}, onDelete: "CASCADE" });
 db.Resume.belongsTo(db.User, { as: "user", foreignKey: {allowNull: false} });
 
 
@@ -53,8 +53,8 @@ db.Project.belongsToMany(db.Resume, { through: "ResumeProjects", as: "resumes", 
 db.User.hasMany(db.ContactInfo, { as: db.ContactInfo.name, foreignKey: {allowNull: false}, onDelete: "CASCADE" });
 db.ContactInfo.belongsTo(db.User, { as: db.User.name, foreignKey: {allowNull: false}, onDelete: "CASCADE" });
 // Resume and ContactInfo (Many-to-Many)
-db.Resume.belongsToMany(db.ContactInfo, { through: "ResumeContactInfo", as: "ContactInfo", foreignKey: "resume_id" });
-db.ContactInfo.belongsToMany(db.Resume, { through: "ResumeContactInfo", as: "resumes", foreignKey: "contact_id" });
+db.Resume.belongsToMany(db.ContactInfo, { through: "ResumeContactInfo", as: "ContactInfo", foreignKey: {allowNull: false} });
+db.ContactInfo.belongsToMany(db.Resume, { through: "ResumeContactInfo", as: "resumes", foreignKey: {allowNull: false} });
 
 
 // User and Education (One-to-Many)
