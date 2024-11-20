@@ -74,11 +74,11 @@ db.Skill.belongsToMany(db.Resume, { through: "ResumeSkills", as: "resumes", fore
 
 
 // User and Personal Links (One-to-Many)
-db.User.hasMany(db.PersonalLink, { as: db.PersonalLink.name, foreignKey: "user_id", onDelete: "CASCADE" });
-db.PersonalLink.belongsTo(db.User, { as: db.User.name, foreignKey: "user_id", onDelete: "CASCADE" });
+db.User.hasMany(db.PersonalLinks, { as: db.PersonalLinks.name, foreignKey: "user_id", onDelete: "CASCADE" });
+db.PersonalLinks.belongsTo(db.User, { as: db.User.name, foreignKey: "user_id", onDelete: "CASCADE" });
 // Resume and Personal Links (Many-to-Many)
-db.Resume.belongsToMany(db.PersonalLink, { through: "ResumePersonalLinks", as: "personalLinks", foreignKey: "resume_id" });
-db.PersonalLink.belongsToMany(db.Resume, { through: "ResumePersonalLinks", as: "resumes", foreignKey: "personal_link_id" });
+db.Resume.belongsToMany(db.PersonalLinks, { through: "ResumePersonalLinks", as: "personalLinks", foreignKey: "resume_id" });
+db.PersonalLinks.belongsToMany(db.Resume, { through: "ResumePersonalLinks", as: "resumes", foreignKey: "personal_link_id" });
 
 
 
