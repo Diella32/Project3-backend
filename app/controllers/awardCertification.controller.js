@@ -91,26 +91,80 @@
   };
  
   
-  exports.delete = (req, res) => {
+  exports.delete = async (req, res) => {
     const award_id = req.params.award_id;
-    AwardCertifications.destroy({
-      where: { award_id: award_id }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.send({
-            message: "Award/Certification was deleted successfully!"
-          });
-        } else {
-          res.send({
-            message: `Cannot delete Award/Certification with award_id=${award_id}. Maybe Award/Certification was not found!`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: err.message || "Could not delete Award/Certification with award_id=" + award_id
-        });
-      });
-  };
+    
+    console.log('Delete request received for award_id:', award_id); // Debug log
   
+    try {
+      if (!award_id) {
+        return res.status(400).send({
+          success: false,
+          message: "Award ID is required"
+        });
+      }
+  
+      const result = await AwardCertifications.destroy({
+        where: { award_id: award_id }
+      });
+  
+      console.log('Delete result:', result); // Debug log
+  
+      if (result === 1) {
+        res.send({
+          success: true,
+          message: "Award/Certification was deleted successfully!"
+        });
+      } else {
+        res.status(404).send({
+          success: false,
+          message: `Cannot delete Award/Certification with award_id=${award_id}. Record not found.`
+        });
+      }
+    } catch (err) {
+      console.error('Delete operation error:', err); // Debug log
+      res.status(500).send({
+        success: false,
+        message: `Error deleting Award/Certification: ${err.message}`
+      });
+    }
+  };
+
+  exports.deleteAllForResume = async (req, res) => {
+    const resume_id = req.params.resume_id;
+   
+    try {
+      if (!resume_id) {
+        return res.status(400).send({
+          success: false,
+          message: "Resume ID is required" 
+        });
+      }
+   
+      console.log('Attempting to delete all awards/certifications for resume_id:', resume_id);
+   
+      const result = await AwardCertifications.destroy({
+        where: { resume_id: resume_id }
+      });
+   
+      console.log('Delete result:', result);
+   
+      if (result >= 0) {
+        res.send({
+          success: true,
+          message: `Successfully deleted ${result} award(s)/certification(s) for resume.`
+        });
+      } else {
+        res.status(404).send({
+          success: false,
+          message: `No awards/certifications found for resume with ID=${resume_id}.`
+        });
+      }
+    } catch (err) {
+      console.error('Delete all operation error:', err);
+      res.status(500).send({
+        success: false,
+        message: `Error deleting awards/certifications: ${err.message}`
+      });
+    }
+   };

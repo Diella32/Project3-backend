@@ -19,11 +19,10 @@ module.exports = (app) => {
   router.delete("/:award_id", [authenticate], AwardCertifications.delete);
 
   // Delete all AwardCertifications for a specific resume
-  router.delete("/resume/:resumeId", [authenticate], AwardCertifications.deleteAll);
+  router.delete("/resume/:resumeId", [authenticate], AwardCertifications.deleteAllForResume);
   
   app.use("/resume-t9/AwardCertification", router);
 };
-
 
 
 
