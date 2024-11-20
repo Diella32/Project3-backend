@@ -1,6 +1,6 @@
 // models/experience.js
 
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
     const Experience = sequelize.define('experience', {
 
       experience_id: {
@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         primaryKey: true
       },
-      user_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
+      // user_id: {
+      //   type: Sequelize.INTEGER,
+      //   allowNull: false
+      // },
       job_title: {
         type: Sequelize.STRING,
         allowNull: false
