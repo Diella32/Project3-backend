@@ -1,6 +1,6 @@
 // models/education.js
 module.exports = (sequelize, DataTypes) => {
-    const Education = sequelize.define('Education', {
+    const Education = sequelize.define('education', {
       education_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

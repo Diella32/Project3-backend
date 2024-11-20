@@ -1,6 +1,6 @@
 // models/project.js
 module.exports = (sequelize, DataTypes) => {
-    const Project = sequelize.define('Project', {
+    const Project = sequelize.define('project', {
       project_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

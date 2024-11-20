@@ -1,6 +1,6 @@
 // models/interest.js
 module.exports = (sequelize, DataTypes) => {
-    const Interest = sequelize.define('Interest', {
+    const Interest = sequelize.define('interest', {
       interest_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
