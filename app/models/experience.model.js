@@ -1,30 +1,26 @@
 // models/experience.js
-module.exports = (sequelize, DataTypes) => {
-    const Experience = sequelize.define('Experience', {
+module.exports = (sequelize, Sequelize) => {
+  const Experience = sequelize.define('experience', {
       experience_id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
-      user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
       job_title: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
       },
       company: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       },
       start_date: {
-        type: DataTypes.DATE
+        type: Sequelize.DATE
       },
       end_date: {
-        type: DataTypes.DATE
+        type: Sequelize.DATE
       },
       description: {
-        type: DataTypes.TEXT
+        type: Sequelize.TEXT
       }
     });
       return Experience;

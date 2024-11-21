@@ -1,5 +1,5 @@
 const db = require("../models");
-const Experience = db.experience;
+const Experience = db.Experience;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Experience
@@ -13,8 +13,9 @@ exports.create = (req, res) => {
     company: req.body.company,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
-    resumeId: req.body.resumeId,
     decription:req.body.decription,
+    user_id: req.body.userId,
+
   };
 
   Experience.create(experience)
@@ -23,9 +24,9 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Experience entries for a specific Resume
-exports.findAllForResume = (req, res) => {
-  const resumeId = req.params.resumeId;
-  Experience.findAll({ where: { resumeId: resumeId } })
+exports.findAllForUser = (req, res) => {
+  const userId = req.params.userId;
+  Experience.findAll({ where: { user_id: userId } })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({ message: err.message || "Error retrieving Experience." }));
 };

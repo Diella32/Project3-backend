@@ -1,21 +1,17 @@
 // models/awardCertification.js
-module.exports = (sequelize, DataTypes) => {
-    const AwardCertification = sequelize.define('AwardCertification', {
+module.exports = (sequelize, Sequelize) => {
+  const AwardCertification = sequelize.define('awardcertification', {
       award_id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
-      user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
       award_name: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
       },
       organization: {
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       },
       
     });  
