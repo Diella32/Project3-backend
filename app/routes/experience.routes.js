@@ -25,5 +25,5 @@ module.exports = (app) => {
   router.delete("/resume/:resumeId", authenticate, experiences.deleteAll);
 
   // Use the router for all "/resume/experiences" routes
-  app.use("/resume/experience", router);
+  app.use("/resume-t9/experience", router);
 };
