@@ -14,11 +14,13 @@ exports.create = (req, res) => {
   const experience = {
     job_title: req.body.job_title,
     company: req.body.company,
+
     start_date: req.body.start_date,
     end_date: req.body.end_date,
     //resumeId: req.body.resumeId,
     description: req.body.description, // Fixed spelling
     user_id: req.body.userId
+
   };
 
   // Save Experience in the database

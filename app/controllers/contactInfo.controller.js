@@ -89,7 +89,9 @@ exports.findOne = (req, res) => {
 // Update a ContactInfo by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  ContactInfo.update(req.body, {where: { id: id },
+  
+  ContactInfo.update(req.body, {where: { contact_id: id },
+
   })
     .then((num) => {
       if (num == 1) {
@@ -111,7 +113,9 @@ exports.update = (req, res) => {
 // Delete a ContactInfo with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  ContactInfo.destroy({where: { id: id },
+
+  ContactInfo.destroy({where: { contact_id: id },
+
   })
     .then((num) => {
       if (num == 1) {

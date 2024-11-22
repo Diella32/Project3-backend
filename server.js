@@ -6,7 +6,9 @@ const cors = require("cors");
 const app = express();
 const db = require("./app/models");
 
-db.sequelize.sync({force:true});
+
+db.sequelize.sync({force: false});
+
 
 const corsOptions = {
   origin: "*",
@@ -35,6 +37,7 @@ require("./app/routes/user.routes")(app);
 require("./app/routes/education.routes")(app);
 require("./app/routes/experience.routes")(app);
 require("./app/routes/project.routes")(app);
+require("./app/routes/contactInfo.routes.js")(app);
 require("./app/routes/skill.routes")(app);
 require("./app/routes/awardCertification.routes")(app);
 require("./app/routes/personalLink.routes")(app);
@@ -50,3 +53,5 @@ if (process.env.NODE_ENV !== "test") {
 }
 
 module.exports = app;
+
+

@@ -1,5 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
-  const contactInfo = sequelize.define("contactInfo", {
+  const contactInfo = sequelize.define("contactinfo", {
+
+    contact_id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },  
       phone_number: {
         type: Sequelize.STRING,
         allowNull: false
