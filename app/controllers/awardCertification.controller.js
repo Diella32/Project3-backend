@@ -1,37 +1,45 @@
-const db = require("../models");
-const AwardCertification = db.awardCertification;
-const Op = db.Sequelize.Op;
 
-// Create and Save a new AwardCertification
-exports.create = (req, res) => {
-  if (!req.body.title) {
-    return res.status(400).send({ message: "Title can not be empty!" });
-  }
-
-  const awardCertification = {
-    title: req.body.title,
-    organization: req.body.organization,
-    date: req.body.date,
-    resumeId: req.body.resumeId,
+  const db = require("../models");
+  const AwardCertifications = db.AwardCertification;
+  const Op = db.Sequelize.Op;
+  
+  // Create and Save a new Certification
+  exports.create = (req, res) => {
+    if (!req.body.user_id) {
+      return res.status(400).send({ message: "User ID cannot be empty!" });
+    }
+  
+    const awardCertification = {
+      award_name: req.body.award_name,
+      organization: req.body.organization,
+      user_id: req.body.user_id
+    };
+  
+    AwardCertifications.create(awardCertification)
+      .then(data => res.send(data))
+      .catch(err => res.status(500).send({
+        message: err.message || "Error creating Award/Certification."
+      }));
   };
-
-  AwardCertification.create(awardCertification)
-    .then(data => res.send(data))
-    .catch(err => res.status(500).send({ message: err.message || "Some error occurred while creating the Award/Certification." }));
-};
-
-// Retrieve all Award/Certification entries for a specific Resume
-exports.findAllForResume = (req, res) => {
-  const resumeId = req.params.resumeId;
-  AwardCertification.findAll({ where: { resumeId: resumeId } })
-    .then(data => res.send(data))
-    .catch(err => res.status(500).send({ message: err.message || "Error retrieving Award/Certification." }));
+  
+  // Retrieve all Award/Certification for a specific Resume
+  exports.findAllForUser = (req, res) => {
+    const userId = req.params.userId;
+    AwardCertifications.findAll({ where: { user_id: userId } })
+    .then((data) => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({ message: `Cannot find Award/Certification with id=${id}.` });
+      }
+    })
+    .catch(err => res.status(500).send({ message: err.message || "Error retrieving Award/Certification with id=" + id }));
 };
 
 // Find a single Award/Certification with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
-  AwardCertification.findByPk(id)
+  AwardCertifications.findByPk(id)
     .then(data => {
       if (data) {
         res.send(data);
@@ -42,10 +50,11 @@ exports.findOne = (req, res) => {
     .catch(err => res.status(500).send({ message: err.message || "Error retrieving Award/Certification with id=" + id }));
 };
 
+
 // Update an Award/Certification by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  AwardCertification.update(req.body, { where: { id: id } })
+  AwardCertifications.update(req.body, { where: { id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Award/Certification was updated successfully." });
@@ -59,7 +68,7 @@ exports.update = (req, res) => {
 // Delete an AwardCertification with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  AwardCertification.destroy({ where: { id: id } })
+  AwardCertifications.destroy({ where: { id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "AwardCertification was deleted successfully!" });
@@ -72,7 +81,7 @@ exports.delete = (req, res) => {
 
 // Delete all AwardCertification entries from the database.
 exports.deleteAll = (req, res) => {
-  AwardCertification.destroy({ where: {}, truncate: false })
+  AwardCertifications.destroy({ where: {}, truncate: false })
     .then(nums => res.send({ message: `${nums} AwardCertification entries were deleted successfully!` }))
     .catch(err => res.status(500).send({ message: err.message || "Some error occurred while removing all AwardCertification entries." }));
 };

@@ -7,7 +7,7 @@ module.exports = (app) => {
     router.post("/", [authenticate], experiences.create);
   
     // Retrieve all Experiences for a specific resume
-    router.get("/resume/:resumeId", [authenticate], experiences.findAllForResume);
+    router.get("/resume/:resumeId", [authenticate], experiences.findAllForUser);
   
     // Retrieve a single Experience by ID
     router.get("/:id", [authenticate], experiences.findOne);

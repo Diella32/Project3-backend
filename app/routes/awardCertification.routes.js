@@ -7,7 +7,7 @@ module.exports = (app) => {
     router.post("/", [authenticate], AwardCertifications.create);
   
     // Retrieve all AwardCertifications for a specific resume
-    router.get("/resume/:resumeId", [authenticate], AwardCertifications.findAllForResume);
+    router.get("/resume/:resumeId", [authenticate], AwardCertifications.findAllForUser);
   
     // Retrieve a AwardCertifications Skill by ID
     router.get("/:id", [authenticate], AwardCertifications.findOne);
