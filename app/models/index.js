@@ -18,27 +18,25 @@ db.sequelize = sequelize;
 
 // Models
 db.User = require("./user.model.js")(sequelize, Sequelize);
-db.Session = require("./session.model.js")(sequelize, Sequelize);
-db.Education = require("./education.model.js")(sequelize, Sequelize);
-db.PersonalLinks = require("./personalLink.model.js")(sequelize, Sequelize);
 db.Resume = require("./resume.model.js")(sequelize, Sequelize);
 db.Skill = require("./skill.model.js")(sequelize, Sequelize);
-// db.PersonalLink = require("./personalLink.model.js")(sequelize, Sequelize);
+db.Education = require("./education.model.js")(sequelize, Sequelize);
+db.PersonalLink = require("./personalLink.model.js")(sequelize, Sequelize);
 db.Experience = require("./experience.model.js")(sequelize, Sequelize);
 db.Project = require("./project.model.js")(sequelize, Sequelize);
 db.Interest = require("./interest.model.js")(sequelize, Sequelize);
 db.AwardCertification = require("./awardCertification.model.js")(sequelize, Sequelize);
+db.Session = require("./session.model.js")(sequelize, Sequelize);
 db.ContactInfo =require("./contactInfo.model.js")(sequelize, Sequelize);
 
 // Associations
 
-db.User.hasMany(db.Session, { as: "session", foreignKey: {allowNull: false}, onDelete: "CASCADE" });
-db.Session.belongsTo(db.User, { as: "user", foreignKey: {allowNull: false} });
+db.User.hasMany(db.Session, { as: "sessions", foreignKey: "user_id", onDelete: "CASCADE" });
+db.Session.belongsTo(db.User, { as: "user", foreignKey: "user_id" });
 
 // User and Resume (One-to-Many)
-db.User.hasMany(db.Resume, { as: "resume", foreignKey: {allowNull: false}, onDelete: "CASCADE" });
-db.Resume.belongsTo(db.User, { as: "user", foreignKey: {allowNull: false} });
-
+db.User.hasMany(db.Resume, { as: "resumes", foreignKey: "user_id", onDelete: "CASCADE" });
+db.Resume.belongsTo(db.User, { as: "user", foreignKey: "user_id" });
 
 
 // User and Project (One-to-Many)
@@ -54,8 +52,8 @@ db.Project.belongsToMany(db.Resume, { through: "resumeprojects", as: "resumes", 
 db.User.hasMany(db.ContactInfo, { as: db.ContactInfo.name, foreignKey: "user_id", onDelete: "CASCADE" });
 db.ContactInfo.belongsTo(db.User, { as: db.User.name, foreignKey: "user_id", onDelete: "CASCADE" });
 // Resume and ContactInfo (Many-to-Many)
-db.Resume.belongsToMany(db.ContactInfo, { through: "resumecontactInfo", as: "contactInfo", foreignKey: "resume_id" });
-db.ContactInfo.belongsToMany(db.Resume, { through: "resumecontactInfo", as: "resumes", foreignKey: "contact_id" });
+db.Resume.belongsToMany(db.ContactInfo, { through: "resumecontactinfo", as: "contactinfo", foreignKey: "resume_id" });
+db.ContactInfo.belongsToMany(db.Resume, { through: "resumecontactinfo", as: "resumes", foreignKey: "contact_id" });
 
 
 // User and Education (One-to-Many)
