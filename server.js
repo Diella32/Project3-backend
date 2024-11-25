@@ -8,8 +8,9 @@ const db = require("./app/models");
 
 db.sequelize.sync({force: true});
 
+
 const corsOptions = {
-  origin: "http://localhost:8081",
+  origin: "*",
 };
 
 app.use(cors(corsOptions));
@@ -28,11 +29,11 @@ app.get("/", (req, res) => {
 
 // Routes for authentication and user management
 require("./app/routes/auth.routes.js")(app);
+require("./app/routes/resume.routes")(app);
 require("./app/routes/user.routes")(app);
 
 
 // Resume-related routes
-require("./app/routes/resume.routes")(app);
 require("./app/routes/education.routes")(app);
 require("./app/routes/experience.routes")(app);
 require("./app/routes/project.routes")(app);

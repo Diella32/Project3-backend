@@ -1,5 +1,6 @@
 const db = require("../models");
 const Resume = db.Resume;
+
 const ContactInfo = db.ContactInfo;
 const Project= db.Project;
 const Education=db.Education;
@@ -8,6 +9,7 @@ const Skill= db.Skill;
 const Experience= db.Experience;
 const AwardCertification= db.AwardCertification;
 const Interest= db.Interest;
+
 
 const Op = db.Sequelize.Op;
 
@@ -30,6 +32,14 @@ exports.create = async (req, res) => {
     selectedInterests,
     selectedAwards,
   } = req.body;
+
+  const resume = {
+    title: req.body.title,
+    userId: req.body.userId,
+    introduction: req.body.introduction,
+    template_choice: req.body.template_choice,
+  };
+
 
   console.log(req.body);
 

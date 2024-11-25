@@ -16,6 +16,7 @@ module.exports = (app) => {
   // Retrieve a single interest by ID
   router.get("/:id", [authenticate], interest.findOne);
   
+
   // Update a interest by ID
   router.put("/:id", [authenticate], interest.update);
 
@@ -27,3 +28,6 @@ module.exports = (app) => {
 
   app.use("/resume/interest", router);
 };
+
+  
+
