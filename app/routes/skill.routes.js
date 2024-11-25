@@ -23,5 +23,5 @@ router.delete("/:id", authenticate, skills.delete);
 router.delete("/resume/:resumeId", authenticate, skills.deleteAll);
 
 module.exports = (app) => {
-  app.use("/resume/skills", router);
+  app.use("/resume-t9/skills", router);
 };
