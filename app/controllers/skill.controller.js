@@ -5,14 +5,14 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Skill
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.name || !req.body.userId) {
+  if (!req.body.skill_name || !req.body.userId) {
     console.log(req.body);
     return res.status(400).send({ message: "Skill name and user ID are required!" });
   }
 
   // Create a Skill object
   const skill = {
-    skill_name: req.body.name,
+    skill_name: req.body.skill_name,
     category: req.body.category, // e.g., beginner, intermediate, expert
     user_id: req.body.userId,
   };
@@ -66,11 +66,11 @@ exports.update = (req, res) => {
   const id = req.params.id;
 
   // Validate request
-  if (!req.body.name || !req.body.category) {
+  if (!req.body.skill_name || !req.body.category) {
     return res.status(400).send({ message: "Skill name and category are required for updating!" });
   }
 
-  Skill.update(req.body, { where: { id: id } })
+  Skill.update(req.body, { where: { skill_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Skill was updated successfully." });
@@ -91,7 +91,7 @@ exports.update = (req, res) => {
 // Delete a Skill with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Skill.destroy({ where: { id: id } })
+  Skill.destroy({ where: { skill_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Skill was deleted successfully!" });
