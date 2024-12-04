@@ -21,5 +21,11 @@ module.exports = (app) => {
   // Delete all User
   router.delete("/", [authenticate], user.deleteAll);
 
+  // Admin Routes
+  router.get("/admin/list", [authenticate, users.isAdmin], users.findAllAdmins);
+  router.put("/:id", [authenticate, users.isAdmin], users.update);
+  router.delete("/:id", [authenticate, users.isAdmin], users.delete);
+
+
   app.use("/resume/user", router);
 };

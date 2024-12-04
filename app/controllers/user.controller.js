@@ -18,6 +18,7 @@ exports.create = (req, res) => {
     fName: req.body.fName,
     lName: req.body.lName,
     email: req.body.email,
+    role: req.body.role || 'student',
     // refresh_token: req.body.refresh_token,
     // expiration_date: req.body.expiration_date
   };
@@ -46,6 +47,42 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving people.",
+      });
+    });
+};
+
+exports.isAdmin = (req, res, next) => {
+  const userId = req.user.id; 
+
+  User.findByPk(userId)
+    .then(user => {
+      if (!user || user.role !== 'admin') {
+        return res.status(403).send({
+          message: "Require Admin Role!"
+        });
+      }
+      next();
+      return null;
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error checking admin status"
+      });
+    });
+};
+
+exports.findAllAdmins = (req, res) => {
+  User.findAll({
+    where: {
+      role: 'admin'
+    }
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Error retrieving admins"
       });
     });
 };
