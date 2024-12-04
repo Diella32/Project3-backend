@@ -28,6 +28,7 @@ db.Interest = require("./interest.model.js")(sequelize, Sequelize);
 db.AwardCertification = require("./awardCertification.model.js")(sequelize, Sequelize);
 db.Session = require("./session.model.js")(sequelize, Sequelize);
 db.ContactInfo =require("./contactInfo.model.js")(sequelize, Sequelize);
+db.Comment = require("./comment.model.js")(sequelize, Sequelize);
 
 // Associations
 
@@ -103,5 +104,9 @@ db.AwardCertification.belongsTo(db.User, { as: db.User.name, foreignKey: "user_i
 // Resume and Awards/Certifications (One-to-Many)
 db.Resume.hasMany(db.AwardCertification, { as: "awardCertifications", foreignKey: "resume_id", onDelete: "CASCADE" });
 db.AwardCertification.belongsTo(db.Resume, { as: "resume", foreignKey: "resume_id" });
+
+//Comment and User (One-to-Many)
+db.User.hasMany(db.Comment, { foreignKey: 'user_id' });
+db.Comment.belongsTo(db.User, { foreignKey: 'user_id' });
 
 module.exports = db;
