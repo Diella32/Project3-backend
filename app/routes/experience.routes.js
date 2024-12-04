@@ -1,4 +1,4 @@
-const { Experience } = require("../models/index.js");
+//const { Experience } = require("../models/index.js");
 
 module.exports = (app) => {
   const experiences = require("../controllers/experience.controller.js");
@@ -25,5 +25,5 @@ module.exports = (app) => {
   router.delete("/resume/:resumeId", authenticate, experiences.deleteAll);
 
   // Use the router for all "/resume/experiences" routes
-  app.use("/resume-t9/experience", router);
+  app.use("/resume-t9/experiences", router);
 };

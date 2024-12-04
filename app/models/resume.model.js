@@ -15,10 +15,6 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false
        },
 
-    resume_name: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
     introduction: {
       type: Sequelize.TEXT
     },

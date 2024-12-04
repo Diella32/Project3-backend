@@ -5,14 +5,14 @@
   
   // Create and Save a new Certification
   exports.create = (req, res) => {
-    if (!req.body.user_id) {
-      return res.status(400).send({ message: "User ID cannot be empty!" });
+    if (!req.body.award_name) {
+      return res.status(400).send({ message: "award name cannot be empty!" });
     }
   
     const awardCertification = {
       award_name: req.body.award_name,
       organization: req.body.organization,
-      user_id: req.body.user_id
+      user_id: req.body.userId
     };
   
     AwardCertifications.create(awardCertification)
@@ -30,7 +30,7 @@
       if (data) {
         res.send(data);
       } else {
-        res.status(404).send({ message: `Cannot find Award/Certification with id=${id}.` });
+        res.status(404).send({ message: `Cannot find Award/Certification with id=${userId}.` });
       }
     })
     .catch(err => res.status(500).send({ message: err.message || "Error retrieving Award/Certification with id=" + id }));
@@ -54,7 +54,7 @@ exports.findOne = (req, res) => {
 // Update an Award/Certification by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  AwardCertifications.update(req.body, { where: { id: id } })
+  AwardCertifications.update(req.body, { where: { award_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Award/Certification was updated successfully." });
@@ -68,7 +68,7 @@ exports.update = (req, res) => {
 // Delete an AwardCertification with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  AwardCertifications.destroy({ where: { id: id } })
+  AwardCertifications.destroy({ where: { award_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "AwardCertification was deleted successfully!" });
