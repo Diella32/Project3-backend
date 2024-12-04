@@ -22,9 +22,9 @@ module.exports = (app) => {
   router.delete("/", [authenticate], user.deleteAll);
 
   // Admin Routes
-  router.get("/admin/list", [authenticate, users.isAdmin], users.findAllAdmins);
-  router.put("/:id", [authenticate, users.isAdmin], users.update);
-  router.delete("/:id", [authenticate, users.isAdmin], users.delete);
+  router.get("/admin/list", [authenticate, user.isAdmin], user.findAllAdmins);
+  router.put("/:id", [authenticate, user.isAdmin], user.update);
+  router.delete("/:id", [authenticate, user.isAdmin], user.delete);
 
 
   app.use("/resume/user", router);
