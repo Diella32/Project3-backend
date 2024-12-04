@@ -53,11 +53,11 @@ exports.create = async (req, res) => {
     });
 
     // Add relationships dynamically
-    if (Array.isArray(selectedContacts)) await resume.addContactInfo(selectedContacts);
+    if (Array.isArray(selectedContacts)) await resume.addContactinfo(selectedContacts);
     if (Array.isArray(selectedEducation)) await resume.addEducation(selectedEducation);
     if (Array.isArray(selectedProjects)) await resume.addProjects(selectedProjects);
     if (Array.isArray(selectedSkills)) await resume.addSkills(selectedSkills);
-    if (Array.isArray(selectedPersonalLinks)) await resume.addPersonalLinks(selectedPersonalLinks);
+    if (Array.isArray(selectedPersonalLinks)) await resume.addPersonallinks(selectedPersonalLinks);
     if (Array.isArray(selectedExperiences)) await resume.addExperiences(selectedExperiences);
     if (Array.isArray(selectedInterests)) await resume.addInterests(selectedInterests);
     if (Array.isArray(selectedAwards)) await resume.addAwards(selectedAwards);
@@ -86,7 +86,7 @@ exports.findOne = (req, res) => {
     include: [
       {
         model: ContactInfo,
-        as: "ContactInfo", // Alias for ContactInfo
+        as: "contactinfo", // Alias for ContactInfo
       },
       {
         model: Project,
@@ -106,7 +106,7 @@ exports.findOne = (req, res) => {
       },
       {
         model: PersonalLink,
-        as: "personalLinks", // Alias for Personal Links
+        as: "personallinks", // Alias for Personal Links
       },
       {
         model: Interest,
