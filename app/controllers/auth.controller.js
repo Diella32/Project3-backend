@@ -73,6 +73,8 @@ exports.login = async (req, res) => {
           fName: firstName,
           lName: lastName,
           email: email,
+          role: 'student',
+          isAdmin: false
         };
       }
     })

@@ -6,6 +6,7 @@ module.exports = (app) => {
   // Create a new User
   router.post("/", [authenticate], user.create);
 
+  
   // Retrieve all People
   router.get("/", [authenticate], user.findAll);
 
@@ -27,5 +28,5 @@ module.exports = (app) => {
   router.delete("/:id", [authenticate, user.isAdmin], user.delete);
 
 
-  app.use("/resume/user", router);
+  app.use("/resume-t9/user", router);
 };

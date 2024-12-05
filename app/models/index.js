@@ -29,6 +29,7 @@ db.AwardCertification = require("./awardCertification.model.js")(sequelize, Sequ
 db.Session = require("./session.model.js")(sequelize, Sequelize);
 db.ContactInfo =require("./contactInfo.model.js")(sequelize, Sequelize);
 db.Comment = require("./comment.model.js")(sequelize, Sequelize);
+db.Request = require("./request.model.js")(sequelize, Sequelize);
 
 // Associations
 
@@ -108,5 +109,27 @@ db.AwardCertification.belongsTo(db.Resume, { as: "resume", foreignKey: "resume_i
 //Comment and User (One-to-Many)
 db.User.hasMany(db.Comment, { foreignKey: 'user_id' });
 db.Comment.belongsTo(db.User, { foreignKey: 'user_id' });
+
+// Request associations
+db.Request.belongsTo(db.User, { 
+    foreignKey: 'userId',
+    as: 'user'
+});
+
+db.Request.belongsTo(db.Resume, {
+    foreignKey: 'resumeId',
+    as: 'resume'
+});
+
+// Add reverse associations
+db.User.hasMany(db.Request, {
+    foreignKey: 'userId',
+    as: 'requests'
+});
+
+db.Resume.hasMany(db.Request, {
+    foreignKey: 'resumeId',
+    as: 'requests'
+});
 
 module.exports = db;
