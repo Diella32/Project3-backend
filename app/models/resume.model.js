@@ -19,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.TEXT
     },
     template_choice: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false
     }
   });
