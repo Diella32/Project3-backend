@@ -1,18 +1,17 @@
 // models/personalLinks.js
-module.exports = (sequelize, DataTypes) => {
-    const PersonalLinks = sequelize.define('PersonalLinks', {
+
+module.exports = (sequelize, Sequelize) => {
+    const PersonalLinks = sequelize.define('personallinks', {
+
       link_id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
-      },
-      user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      
+
+      },      
+
       url: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
       }
     });

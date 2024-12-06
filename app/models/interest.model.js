@@ -1,17 +1,16 @@
 // models/interest.js
-module.exports = (sequelize, DataTypes) => {
-    const Interest = sequelize.define('Interest', {
+
+module.exports = (sequelize, Sequelize) => {
+    const Interest = sequelize.define('interest', {
+
       interest_id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
-      user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
+
       interest: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
       }
     });

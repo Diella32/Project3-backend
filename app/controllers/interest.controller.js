@@ -1,17 +1,16 @@
 const db = require("../models");
-const Interest = db.interest;
+const Interest = db.Interest;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Interest
 exports.create = (req, res) => {
-  if (!req.body.name || !req.body.userId) {
+  if (!req.body.interest || !req.body.user_id) {
     return res.status(400).send({ message: "Interest name and userId cannot be empty!" });
   }
 
   const interest = {
-    name: req.body.name,
-    resumeId: req.body.resumeId,
-    userId: req.body.userId
+    interest: req.body.interest,
+    user_id: req.body.user_id
   };
 
   Interest.create(interest)
@@ -30,7 +29,7 @@ exports.findAllForResume = (req, res) => {
 // Retrieve all Interests for a specific User
 exports.findAllForUser = (req, res) => {
   const userId = req.params.userId;
-  Interest.findAll({ where: { userId: userId } })
+  Interest.findAll({ where: {user_id: userId } })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({ message: err.message || "Error retrieving Interests." }));
 };
@@ -66,7 +65,7 @@ exports.update = (req, res) => {
 // Delete an Interest with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Interest.destroy({ where: { id: id, userId: req.body.userId } })
+  Interest.destroy({ where: { interest_id: id} })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Interest was deleted successfully!" });
@@ -79,8 +78,8 @@ exports.delete = (req, res) => {
 
 // Delete all Interests for a User
 exports.deleteAllForUser = (req, res) => {
-  const userId = req.params.userId;
-  Interest.destroy({ where: { userId: userId }, truncate: false })
+  const user_id = req.params.user_id;
+  Interest.destroy({ where: { user_id: userId }, truncate: false })
     .then(nums => res.send({ message: `${nums} Interests were deleted successfully for user ${userId}!` }))
     .catch(err => res.status(500).send({ message: err.message || "Some error occurred while removing all Interests for user." }));
 };

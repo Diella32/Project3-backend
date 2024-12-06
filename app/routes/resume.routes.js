@@ -7,7 +7,7 @@ module.exports = (app) => {
   router.post("/", [authenticate], resumes.create);
 
   // Retrieve all Resumes for a specific user
-  router.get("/userResumes/:userId", [authenticate], resumes.findAllForUser);
+  router.get("/user/:userId", [authenticate], resumes.findAllForUser);
 
   // Retrieve a single Resume with id
   router.get("/:id", [authenticate], resumes.findOne);
@@ -21,5 +21,5 @@ module.exports = (app) => {
   // Delete all Resumes
   router.delete("/", [authenticate], resumes.deleteAll);
 
-  app.use("/resume", router);
+  app.use("/resume-t9/resumes", router);
 };

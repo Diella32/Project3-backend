@@ -1,28 +1,30 @@
 module.exports = (app) => {
-    const contactInfo = require("../controllers/contactInfo.controller.js");
+    const ContactInfo = require("../controllers/contactInfo.controller.js");
     const { authenticate } = require("../authorization/authorization.js");
     var router = require("express").Router();
   
     // Create a new Resume
-    router.post("/", [authenticate], contactInfo.create);
+    router.post("/", [authenticate], ContactInfo.create);
   
     // Retrieve all contactInfo
     //router.get("/", [authenticate], contactInfo.findAll);
   
     // Retrieve all contactInfo for user
-    router.get("/user/:userId", [authenticate], contactInfo.findAllForUser);
+
+    router.get("/user/:userId", [authenticate], ContactInfo.findAllForUser);
+
   
     // Retrieve a single contactInfo with id
-    router.get("/:id", [authenticate], contactInfo.findOne);
+    router.get("/:id", [authenticate], ContactInfo.findOne);
   
     // Update a contactInfo with id
-    router.put("/:id", [authenticate], contactInfo.update);
+    router.put("/:id", [authenticate], ContactInfo.update);
   
     // Delete a contactInfo with id
-    router.delete("/:id", [authenticate], contactInfo.delete);
+    router.delete("/:id", [authenticate], ContactInfo.delete);
   
     // Delete all contactInfo
-    router.delete("/", [authenticate], contactInfo.deleteAll);
+    router.delete("/", [authenticate], ContactInfo.deleteAll);
   
-    app.use("/resume/contactInfo", router);
+    app.use("/resume-t9/ContactInfo", router);
   };

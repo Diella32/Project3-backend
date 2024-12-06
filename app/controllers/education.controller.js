@@ -12,8 +12,8 @@ exports.create = (req, res) => {
     degree: req.body.degree,
     FieldOfStudy: req.body.FieldOfStudy,
     institution: req.body.institution,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate,
+    start_date: req.body.start_date,
+    end_date: req.body.end_date,
     gpa:req.body.gpa,
     user_id: req.body.userId,
 
@@ -49,7 +49,7 @@ exports.findOne = (req, res) => {
 // Update an Education by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  Education.update(req.body, { where: { id: id } })
+  Education.update(req.body, { where: { education_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Education was updated successfully." });
@@ -63,7 +63,7 @@ exports.update = (req, res) => {
 // Delete an Education with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Education.destroy({ where: { id: id } })
+  Education.destroy({ where: { education_id: id } })
     .then(num => {
       if (num == 1) {
         res.send({ message: "Education was deleted successfully!" });
