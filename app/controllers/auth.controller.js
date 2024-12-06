@@ -73,6 +73,8 @@ exports.login = async (req, res) => {
           fName: firstName,
           lName: lastName,
           email: email,
+          role: 'student',
+          isAdmin: false
         };
       }
     })
@@ -95,11 +97,11 @@ exports.login = async (req, res) => {
       });
   } else {
     console.log(user);
-    // doing this to ensure that the user's name is the one listed with Google
+
     user.fName = firstName;
     user.lName = lastName;
     console.log(user);
-    await User.update(user, { where: { id: user.user_id } })
+    await User.update(user, { where: { user_id: user.user_id } })
       .then((num) => {
         if (num == 1) {
           console.log("updated user's name");
@@ -173,15 +175,26 @@ exports.login = async (req, res) => {
 
   if (session.id === undefined) {
     // create a new Session with an expiration date and save to database
-    let token = jwt.sign({ id: email }, authconfig.secret, {
-      expiresIn: 86400,
-    });
+    let token = jwt.sign(
+      { 
+        id: email,
+        role: user.role,
+        isAdmin: user.isAdmin,
+        user_id: user.user_id  // Add user_id to token
+      }, 
+      authconfig.secret, 
+      {
+        expiresIn: 86400,
+      }
+    );
+    
     let tempExpirationDate = new Date();
     tempExpirationDate.setDate(tempExpirationDate.getDate() + 1);
+    
     const session = {
       token: token,
       email: email,
-      user_id: user.user_id,
+      user_id: user.user_id,  // Changed from userId to user_id
       expirationDate: tempExpirationDate,
     };
 
@@ -194,12 +207,21 @@ exports.login = async (req, res) => {
           email: user.email,
           fName: user.fName,
           lName: user.lName,
-          user_id: user.user_id,
+          user_id: user.user_id,  // Changed from userId to user_id
+          role: user.role,
+          isAdmin: user.isAdmin,
           token: token,
-          // refresh_token: user.refresh_token,
-          // expiration_date: user.expiration_date
         };
-        console.log(userInfo);
+        
+        // Add role-specific data to response
+        if (user.role === 'admin') {
+          userInfo.adminPrivileges = true;
+          userInfo.adminDashboardUrl = '/admin/dashboard';
+        } else {
+          userInfo.studentDashboardUrl = '/student/dashboard';
+        }
+
+        console.log("Login successful:", userInfo);
         res.send(userInfo);
       })
       .catch((err) => {
