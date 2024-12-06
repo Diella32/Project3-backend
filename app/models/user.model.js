@@ -22,7 +22,19 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
-  
+    role: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      defaultValue: 'student',
+      validate: {
+        isIn: [['admin', 'student']]
+      }
+    },
+    isAdmin: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    }
   });
 
   return User;

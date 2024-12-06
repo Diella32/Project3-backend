@@ -2,6 +2,9 @@ const db = require("../models");
 const User = db.user;
 const Op = db.Sequelize.Op;
 
+// Add this constant at the top of the file
+const VALID_ROLES = ['student', 'admin'];
+
 // Create and Save a new User
 exports.create = (req, res) => {
   // Validate request
@@ -12,14 +15,22 @@ exports.create = (req, res) => {
     return;
   }
 
+  // Validate role
+  const role = req.body.role || 'student';
+  if (!VALID_ROLES.includes(role)) {
+    res.status(400).send({
+      message: "Invalid role. Role must be either 'student' or 'admin'",
+    });
+    return;
+  }
+
   // Create a User
   const user = {
     id: req.body.id,
     fName: req.body.fName,
     lName: req.body.lName,
     email: req.body.email,
-    // refresh_token: req.body.refresh_token,
-    // expiration_date: req.body.expiration_date
+    role: role,
   };
 
   // Save User in the database
@@ -37,7 +48,15 @@ exports.create = (req, res) => {
 // Retrieve all People from the database.
 exports.findAll = (req, res) => {
   const id = req.query.id;
-  var condition = id ? { id: { [Op.like]: `%${id}%` } } : null;
+  const role = req.query.role;
+  
+  let condition = {};
+  if (id) {
+    condition.id = { [Op.like]: `%${id}%` };
+  }
+  if (role && VALID_ROLES.includes(role)) {
+    condition.role = role;
+  }
 
   User.findAll({ where: condition })
     .then((data) => {
@@ -46,6 +65,42 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving people.",
+      });
+    });
+};
+
+exports.isAdmin = (req, res, next) => {
+  const userId = req.user.id; 
+
+  User.findByPk(userId)
+    .then(user => {
+      if (!user || user.role !== 'admin') {
+        return res.status(403).send({
+          message: "Require Admin Role!"
+        });
+      }
+      next();
+      return null;
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error checking admin status"
+      });
+    });
+};
+
+exports.findAllAdmins = (req, res) => {
+  User.findAll({
+    where: {
+      role: 'admin'
+    }
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Error retrieving admins"
       });
     });
 };
@@ -160,6 +215,27 @@ exports.deleteAll = (req, res) => {
       res.status(500).send({
         message:
           err.message || "Some error occurred while removing all people.",
+      });
+    });
+};
+
+// Add new method to check if user is a student
+exports.isStudent = (req, res, next) => {
+  const userId = req.user.id;
+
+  User.findByPk(userId)
+    .then(user => {
+      if (!user || user.role !== 'student') {
+        return res.status(403).send({
+          message: "Require Student Role!"
+        });
+      }
+      next();
+      return null;
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error checking student status"
       });
     });
 };
