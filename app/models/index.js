@@ -123,14 +123,14 @@ db.Comment.belongsTo(db.User, { foreignKey: 'user_id' });
 // });
 
 // Add reverse associations
-db.User.hasMany(db.Request, {
-    foreignKey: 'userId',
-    as: 'requests'
-});
+// db.User.hasMany(db.Request, {
+//     foreignKey: 'userId',
+//     as: 'requests'
+// });
 
-db.Resume.hasMany(db.Request, {
-    foreignKey: 'resumeId',
-    as: 'requests'
-});
+// db.Resume.hasMany(db.Request, {
+//     foreignKey: 'resumeId',
+//     as: 'requests'
+// });
 
 module.exports = db;
